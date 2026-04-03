@@ -1,0 +1,7 @@
+services:
+  frontend:
+    container_name: frontend
+    image: frontend-image
+    build: ./frontend
+    ports:
+      - 80:5173
