@@ -7,6 +7,12 @@ services:
       - 5173
     networks:
       - fiscolia
+    volumes:
+      # - ./frontend/srcs/App.js:/app/src/App.jsx:Z
+      # - ./frontend/srcs/index.css:/app/src/index.css:Z
+      - ./frontend/srcs:/app/src:Z
+    environment:
+      - CHOWN=1
 
 
 # TODO: PASSER NGINX EN SLIM

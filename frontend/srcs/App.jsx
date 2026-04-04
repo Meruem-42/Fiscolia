@@ -22,9 +22,9 @@ function App() {
   }
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
-      <h1>Test Docker Major 🚀</h1>
-      <div style={{ margin: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
+    <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
+      <h1 style={{ color: '#000091', fontFamily: 'cursive'}}>FISCOLIA</h1>
+      <div style={{ margin: '20px', padding: '20px', border: '4px solid #830404(70%)', borderRadius: '8px' }}>
         <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{message}</p>
       </div>
       <button 
@@ -34,7 +34,7 @@ function App() {
           padding: '10px 20px',
           fontSize: '16px',
           cursor: loading ? 'not-allowed' : 'pointer',
-          backgroundColor: '#646cff',
+          backgroundColor: '#000091',
           color: 'white',
           border: 'none',
           borderRadius: '4px'
