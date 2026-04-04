@@ -8,5 +8,6 @@ RUN npm install
 
 EXPOSE 5173
 COPY ./srcs/App.js /app/src/App.jsx
+COPY ./srcs/vite.config.js /app/vite.config.js
 
 CMD ["npm", "run", "dev", "--", "--host"]

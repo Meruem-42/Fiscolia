@@ -9,9 +9,10 @@ function App() {
     setLoading(true)
     try {
       // Note: On utilise /api/ car Nginx fera la redirection
-      const response = await fetch('/api/say-hi')
+      const response = await fetch('/api/auth')
       const data = await response.json()
       setMessage(data.message)
+      console.error(message)
     } catch (error) {
       setMessage("Erreur : Le backend ne répond pas (encore) !")
       console.error(error)

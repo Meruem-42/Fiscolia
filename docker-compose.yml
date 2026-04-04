@@ -3,5 +3,29 @@ services:
     container_name: frontend
     image: frontend-image
     build: ./frontend
+    expose:
+      - 5173
+    networks:
+      - fiscolia
+
+
+# TODO: PASSER NGINX EN SLIM
+  nginx:
+    container_name: nginx
+    image: nginx-image
+    build: ./server
     ports:
-      - 80:5173
+      - 80:80
+    networks:
+      - fiscolia
+  backend-auth:
+    container_name: backend-auth
+    image: backend-auth-image
+    build: ./backend-auth
+    networks:
+      - fiscolia
+
+networks:
+  fiscolia:
+    name: fiscolia-network
+    driver: bridge
