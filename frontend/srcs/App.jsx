@@ -1,49 +1,22 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import {
+  BrowserRouter, Routes, Route,
+} from 'react-router-dom';
+import Home from './pages/Homepage';
+import Test_back_end from './pages/Test_back_end';
+import Login from './pages/Login';
 
 function App() {
-  const [message, setMessage] = useState("En attente du clic...")
-  const [loading, setLoading] = useState(false)
-
-  const callApi = async () => {
-    setLoading(true)
-    try {
-      // Note: On utilise /api/ car Nginx fera la redirection
-      const response = await fetch('/api/auth')
-      const data = await response.json()
-      setMessage(data.message)
-      console.error(message)
-    } catch (error) {
-      setMessage("Erreur : Le backend ne répond pas (encore) !")
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
-      <h1 style={{ color: '#000091', fontFamily: 'cursive'}}>FISCOLIA</h1>
-      <div style={{ margin: '20px', padding: '20px', border: '4px solid #830404(70%)', borderRadius: '8px' }}>
-        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{message}</p>
-      </div>
-      <button 
-        onClick={callApi}
-        disabled={loading}
-        style={{
-          padding: '10px 20px',
-          fontSize: '16px',
-          cursor: loading ? 'not-allowed' : 'pointer',
-          backgroundColor: '#000091',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px'
-        }}
-      >
-        {loading ? 'Appel en cours...' : 'Dis Salut au Backend'}
-      </button>
-    </div>
-  )
+	return (
+	  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/backend" element={<Test_back_end />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  </BrowserRouter>
+	)
 }
 
-export default App
+
+export default App;
