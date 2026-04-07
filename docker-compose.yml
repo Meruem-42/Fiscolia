@@ -27,7 +27,7 @@ services:
   backend-auth:
     container_name: backend-auth
     image: backend-auth-image
-    build: ./backend-auth
+    build: ./backend-auth-login
     networks:
       - fiscolia
 
