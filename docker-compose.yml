@@ -31,6 +31,18 @@ services:
     networks:
       - fiscolia
 
+  postgres:
+    container_name: postgres
+    image: postgres-image
+    build: ./database-auth
+    networks:
+      - fiscolia
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+
+
 networks:
   fiscolia:
     name: fiscolia-network
