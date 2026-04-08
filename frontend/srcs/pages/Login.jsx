@@ -26,17 +26,19 @@ function Login() {
   			},
 			body: JSON.stringify(formData)
 		});
-		const data = response.json();
-		if (!data.ok)
+		console.log(response);
+		if (!response.ok)
 		{
-			setMessage("ERROR");
+			setMessage("INVALID EMAIL");
 			return ;
 		}
+		const data = await response.json();
+		console.log(data);
 		setMessage(data.message);
 	}
 	catch (error) {
 		setMessage("ERROR");
-		console.log("EROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOR");
+		console.log("Something went wrong...");
 	}
 	// BACKEND check si login existe ET si il existe check mdp
 	// BACKEND renvoie success ou failed
