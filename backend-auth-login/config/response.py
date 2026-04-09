@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel, EmailStr
-import connect_db
+# import connect_db
 from contextlib import asynccontextmanager
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import Session, sessionmaker
@@ -12,18 +12,16 @@ class UserFront(BaseModel):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print(f"test -> {connect_db.DATABASE_URL}", flush=True)
+    # print(f"test -> {connect_db.DATABASE_URL}", flush=True)
     yield
 
 DATABASE_URL = "postgresql://admin:1234@postgres:5432/auth"  # URL to connect to the postgres DB
 
 engine = create_engine(DATABASE_URL) # Create a pool of connexions ready to use
 
-session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine) # session rules manager for connexion with DB (add, commit, ...) and its behavior
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) # session rules manager for connexion with DB (add, commit, ...) and its behavior
 
 Base = declarative_base()
-
-Base.metadata.create_all(bind=engine)    
 
 class UserDB(Base):
     __tablename__ = "users"
@@ -31,6 +29,8 @@ class UserDB(Base):
     id    = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True)
     password = Column(String)    
+
+Base.metadata.create_all(bind=engine)
 
 auth = FastAPI(lifespan=lifespan)
 
