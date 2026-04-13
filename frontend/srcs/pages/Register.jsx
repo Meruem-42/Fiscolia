@@ -19,7 +19,7 @@ function Login() {
     console.log("Données récupérées :", formData);
 	// ENVOYER les datas au bon backend
 	try {
-		const response = await fetch("/api/auth-login", {
+		const response = await fetch("/api/auth-register", {
 			method: 'POST',
 			headers: {
     		'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function Login() {
 		console.log(response);
 		if (!response.ok)
 		{
-			setMessage("INVALID EMAIL LOGIN");
+			setMessage("INVALID EMAIL REGISTERING");
 			return ;
 		}
 		const data = await response.json();
@@ -49,18 +49,18 @@ function Login() {
 
   return (
     <div style={{ textAlign: "center", alignContent: "center" }}>
-      <h1 style={{ color:"#000091"}}>LOGIN</h1>
+      <h1 style={{ color:"#000091"}}>REGISTER</h1>
       <form onSubmit={handleSubmit}>
         <p>Email</p>
         <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         <p>Mot de passe</p>
         <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
 		<p>{message}</p>
-        <button type="submit">Connect</button>
+        <button type="submit">Create Account</button>
       </form>
       <div>
         <Link to="/">
-          <button>Return to the home Page</button>
+          <button>Return to Home page</button>
         </Link>
       </div>
     </div>

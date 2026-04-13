@@ -18,6 +18,11 @@ function Home() {
 			<button>LOGIN</button>
 		</Link>
 	</div>
+	<div>
+		<Link to="/register">
+			<button>REGISTER</button>
+		</Link>
+	</div>
 	</div>
 	)
   }

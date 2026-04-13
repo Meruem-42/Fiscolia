@@ -30,8 +30,8 @@ def get_db():
     finally:
         db.close()
 
-@auth.post("/api/auth-login")
-def read_root(data : UserFront, db: Session = Depends(get_db)):
+@auth.post("/api/auth-register")
+def register(data : UserFront, db: Session = Depends(get_db)):
     try :
 
         new_user = UserDB(email=data.email, password=data.password)
@@ -47,3 +47,14 @@ def read_root(data : UserFront, db: Session = Depends(get_db)):
     except :
         db.rollback()
         return {"message": f"connexion echoue avec id = {id}"}
+
+
+@auth.post("/api/auth-login")
+def login(data : UserFront, db: Session = Depends(get_db)):
+    try :
+        user = db.query(UserDB).filter(UserDB.email == data.email).first()
+        if user.password != data.password :
+            raise Exception("Email ou mot de passe incorrect")
+        return {"message": f"USER FOUND, Bienvenue {user.email}, your password is {user.password} and your id {user.id}", "ValidEmail": True, "ValidPassword": True}
+    except :
+        return {"message": f"ALMOST HAHA"}        
