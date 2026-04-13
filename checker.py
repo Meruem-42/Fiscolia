@@ -9,7 +9,7 @@ RESET = "\033[0m"
 
 
 def get_container_count():
-	cmd = "docker compose ps | grep -c 'Up'"
+	cmd = "docker ps | grep -c 'Up'"
 	return int(subprocess.check_output(cmd, shell=True))
 
 def verify_services(expected, count):
@@ -31,7 +31,7 @@ def print_failure_logs(services):
 		print(f"{RED}", "".center(50, "-"), f"{RESET}")
 		print("\n")
 		try:
-			cmd = f"docker compose logs {service}"
+			cmd = f"docker logs {service}"
 			logs = subprocess.check_output(cmd, shell=True, text=True)
 			print(logs)
 		except Exception as e:
@@ -42,7 +42,7 @@ def print_failure_logs(services):
 def get_unhealthy_services():
 	unhealthy_names = []
 	try:
-		cmd = "docker compose ps -a --format '{{.Service}}:{{.Status}}'"
+		cmd = "docker ps -a --format '{{.Names}}:{{.Status}}'"
 		output = subprocess.check_output(cmd, shell=True).decode().strip()
 		if not output:
 			return []
@@ -64,7 +64,7 @@ def error_return(expected, count):
 
 
 def main():
-	expected = int(os.getenv("NB_SERVICES", "4"))
+	expected = int(os.getenv("NB_MICROSERVICES", "4"))
 	count = get_container_count()
 
 	if verify_services(expected, count):
