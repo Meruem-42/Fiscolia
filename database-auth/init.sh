@@ -13,14 +13,4 @@ psql -U postgres -d auth << EOF
 GRANT ALL ON SCHEMA public TO admin;
 EOF
 
-# Se connecter à auth et créer la table
-PGPASSWORD='1234' psql -U admin -d auth << EOF
-CREATE TABLE IF NOT EXISTS users (
-    id          SERIAL          PRIMARY KEY,
-    email       VARCHAR(255)    NOT NULL UNIQUE,
-    password    TEXT            NOT NULL,
-    created_at  TIMESTAMP       DEFAULT NOW()
-);
-EOF
-
 echo "Base de données et table initialisées avec succès !"

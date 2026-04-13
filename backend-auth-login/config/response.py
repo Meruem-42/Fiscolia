@@ -2,9 +2,9 @@ from fastapi import FastAPI, Depends
 from pydantic import BaseModel, EmailStr
 # import connect_db
 from contextlib import asynccontextmanager
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from connect_db import engine, Base, UserDB, SessionLocal  # our own py file
+
+
 
 class UserFront(BaseModel):
     email: EmailStr
@@ -12,27 +12,16 @@ class UserFront(BaseModel):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # print(f"test -> {connect_db.DATABASE_URL}", flush=True)
+    Base.metadata.create_all(bind=engine)
     yield
 
-DATABASE_URL = "postgresql://admin:1234@postgres:5432/auth"  # URL to connect to the postgres DB
 
-engine = create_engine(DATABASE_URL) # Create a pool of connexions ready to use
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) # session rules manager for connexion with DB (add, commit, ...) and its behavior
-
-Base = declarative_base()
-
-class UserDB(Base):
-    __tablename__ = "users"
-
-    id    = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True)
-    password = Column(String)    
-
-Base.metadata.create_all(bind=engine)
 
 auth = FastAPI(lifespan=lifespan)
+
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: str | None = None):
+#     return {"item_id": item_id, "q": q}
 
 def get_db():
     db = SessionLocal()       # ouvre le panier
@@ -47,7 +36,7 @@ def read_root(data : UserFront, db: Session = Depends(get_db)):
 
         new_user = UserDB(email=data.email, password=data.password)
 
-        db.add(new_user)
+        id = db.add(new_user)
 
         db.commit()
 
@@ -57,14 +46,4 @@ def read_root(data : UserFront, db: Session = Depends(get_db)):
         return {"message": f"connexion reussie, Bienvenue {new_user.email}, your password is {new_user.password} and your id {new_user.id}", "ValidEmail": True, "ValidPassword": True}
     except :
         db.rollback()
-        return {"message": "connexion echoue"}
-
-
-
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: str | None = None):
-#     return {"item_id": item_id, "q": q}
-
-
-
+        return {"message": f"connexion echoue avec id = {id}"}
