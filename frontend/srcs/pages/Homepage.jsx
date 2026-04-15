@@ -23,6 +23,11 @@ function Home() {
 			<button>REGISTER</button>
 		</Link>
 	</div>
+	<div>
+		<Link to="/chatbot">
+			<button>ASK ME ANYTHING</button>
+		</Link>
+	</div>
 	</div>
 	)
   }
