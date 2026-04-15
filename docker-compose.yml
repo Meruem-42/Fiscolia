@@ -39,6 +39,13 @@ services:
     networks:
       - fiscolia
 
+  backend-chatbot:
+    container_name: backend-chatbot
+    image: backend-chatbot-image
+    build: ./backend-chatbot
+    networks:
+      - fiscolia   
+
   postgres:
     container_name: postgres
     image: postgres-image

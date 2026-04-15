@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pydantic
+ollama
+pymupdf
+chromadb
+langchain_text_splitters
