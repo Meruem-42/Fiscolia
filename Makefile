@@ -1,7 +1,6 @@
 PROJECT_NAME=fiscolia
 NB_MICROSERVICES=4
 
-
 # Couleurs
 GREEN  = \033[0;32m
 RED    = \033[0;31m
@@ -10,8 +9,6 @@ BLUE   = \033[0;34m
 CYAN   = \033[0;36m
 PURPLE = \033[0;35m
 RESET  = \033[0m
-
-
 
 all :
 	docker compose -p $(PROJECT_NAME) up -d --build
@@ -23,8 +20,8 @@ front:
 	docker compose up -d frontend
 
 server:
-	docker compose build nginx
-	docker compose up -d nginx
+	docker compose build proxy
+	docker compose up -d proxy
 
 back:
 	docker stop

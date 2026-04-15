@@ -7,7 +7,7 @@ RUN npx create-vite@latest . --template react
 RUN npm install
 RUN npm install react-router-dom
 
-EXPOSE 5173
+EXPOSE $FRONT_PORT
 
 COPY ./vite.config.js /app/vite.config.js
 

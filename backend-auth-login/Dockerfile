@@ -6,8 +6,8 @@ WORKDIR /app
 RUN apt update
 RUN pip install fastapi uvicorn pydantic email_validator sqlalchemy psycopg2-binary
 
-COPY ./config/ /app/
+COPY ./config/ .
 
-EXPOSE 8000
+EXPOSE $BACK_AUTH_PORT
 
-CMD [ "uvicorn", "response:auth", "--host" , "0.0.0.0", "--port", "8000" ]
+CMD [ "sh", "-c", "uvicorn response:auth --host 0.0.0.0 --port ${BACK_AUTH_PORT}" ]

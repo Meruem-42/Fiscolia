@@ -1,24 +1,20 @@
 services:
   frontend:
-    container_name: frontend
+    container_name: ${PROJECT_NAME}-frontend
     image: frontend-image
     build: ./frontend
-    expose:
-      - 5173
     networks:
       - fiscolia
     volumes:
-      # - ./frontend/srcs/App.js:/app/src/App.jsx:Z
-      # - ./frontend/srcs/index.css:/app/src/index.css:Z
       - ./frontend/srcs:/app/src:Z
-    environment:
-      - CHOWN=1
+    env_file:
+      - .env
 
 
 # TODO: PASSER NGINX EN SLIM
-  nginx:
-    container_name: nginx
-    image: nginx-image
+  proxy:
+    container_name: ${PROJECT_NAME}-proxy
+    image: proxy-image
     build: ./server
     depends_on:
       frontend:
@@ -26,34 +22,49 @@ services:
       backend-auth:
         condition: service_started
     ports:
-      - 8080:80
+      - ${PROXY_EXPOSED_PORT}:80
     networks:
       - fiscolia
+    env_file:
+      - .env
+
   backend-auth:
-    container_name: backend-auth
+    container_name: ${PROJECT_NAME}-backend-auth
     image: backend-auth-image
     build: ./backend-auth-login
+    security_opt:
+      - label:disable
     depends_on:
-      postgres:
+      db-auth:
         condition: service_healthy
     networks:
       - fiscolia
+    env_file:
+      - .env
+    secrets:
+      - db_auth_pwd
 
-  postgres:
-    container_name: postgres
-    image: postgres-image
+  db-auth:
+    container_name: ${PROJECT_NAME}-db-auth
+    image: db-auth-image
     build: ./database-auth
+    security_opt:
+      - label:disable
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -h localhost -p ${DB_AUTH_PORT} -U admin"]
       interval: 5s
       timeout: 3s
       retries: 20
       start_period: 10s
     networks:
       - fiscolia
-    environment:
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_HOST_AUTH_METHOD=trust
+    env_file:
+      - .env
+    secrets:
+      - db_auth_pwd
+      - db_root_pwd
+
+
 
 
 
@@ -61,3 +72,9 @@ networks:
   fiscolia:
     name: fiscolia-network
     driver: bridge
+
+secrets:
+  db_auth_pwd:
+    file: ./secrets/db_auth_pwd.txt
+  db_root_pwd:
+    file: ./secrets/db_root_pwd.txt

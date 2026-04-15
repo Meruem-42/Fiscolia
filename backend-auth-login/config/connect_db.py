@@ -1,7 +1,26 @@
 from sqlalchemy.orm import Session, sessionmaker, DeclarativeBase
 from sqlalchemy import create_engine, Column, Integer, String
+import os
 
-DATABASE_URL = "postgresql://admin:1234@postgres:5432/auth"  # URL to connect to the postgres DB
+# TODO: MOVE IN utils.py
+
+def get_secret(secret_name):
+    try:
+        path = f"/run/secrets/{secret_name}"
+        
+        with open(path, "r") as secret_file:
+            return secret_file.read().strip()
+            
+    except FileNotFoundError:
+        print(f"Error : {secret_name} file does not exist.")
+        return None
+
+db_user = os.getenv("DB_AUTH_USER")
+db_port = os.getenv("DB_AUTH_PORT")
+db_name = os.getenv("DB_AUTH_NAME")
+db_password = get_secret(os.getenv("DB_AUTH_SECRETS"))
+
+DATABASE_URL = f"postgresql://{db_user}:{db_password}@db-auth:{db_port}/{db_name}"  # URL to connect to the postgres DB
 
 engine = create_engine(DATABASE_URL) # Create a pool of connexions ready to use
 

@@ -15,13 +15,7 @@ async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
     yield
 
-
-
 auth = FastAPI(lifespan=lifespan)
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: str | None = None):
-#     return {"item_id": item_id, "q": q}
 
 def get_db():
     db = SessionLocal()       # ouvre le panier
