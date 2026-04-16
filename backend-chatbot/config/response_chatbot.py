@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from test.py import 
+from test import get_agent_answer
 
 
 
@@ -17,7 +17,8 @@ app = FastAPI()
 
 @app.post("/api/chatbot")
 def response_chatbot(data : UserFront):
-    try :
-        return {"message": f"message sent : {data.question}"}
+    try:
+        answer = get_agent_answer(data.question)
+        return {"message": f"{answer}"}
     except :
-        return {"message": f"Error on AI backend"}     
+        return {"message": f"Error on AI backend"}

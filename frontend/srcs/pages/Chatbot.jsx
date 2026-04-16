@@ -52,7 +52,7 @@ function Chatbot() {
 	  <form onSubmit={handleSubmit}>
 		<p>Chatbot</p>
 		<input type="text" name="question" value={formData.email} onChange={handleChange} placeholder="Question our chatbot" />
-		<p>{message}</p>
+		<p style={{ color:"#474747"}}>{message}</p>
 		<button type="submit">Ask me</button>
 	  </form>
 	  <div>

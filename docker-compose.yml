@@ -26,7 +26,7 @@ services:
       backend-auth:
         condition: service_started
     ports:
-      - 8080:80
+      - 8081:80
     networks:
       - fiscolia
   backend-auth:
@@ -43,6 +43,9 @@ services:
     container_name: backend-chatbot
     image: backend-chatbot-image
     build: ./backend-chatbot
+    depends_on:
+      ollama:
+        condition: service_started
     networks:
       - fiscolia   
 
@@ -62,7 +65,18 @@ services:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_HOST_AUTH_METHOD=trust
 
-
+  ollama:
+    container_name: ollama
+    image: ollama/ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      - fiscolia
 
 networks:
   fiscolia:
