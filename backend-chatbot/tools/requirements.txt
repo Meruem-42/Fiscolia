@@ -5,3 +5,7 @@ ollama
 pymupdf
 chromadb
 langchain_text_splitters
+langchain_chroma
+langchain_ollama
+langchain_community
+pypdf
