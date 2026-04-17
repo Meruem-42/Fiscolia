@@ -29,7 +29,7 @@ function Login() {
 		console.log(response);
 		if (!response.ok)
 		{
-			setMessage("INVALID EMAIL LOGIN");
+			setMessage("Invalid email format");
 			return ;
 		}
 		const data = await response.json();
@@ -40,6 +40,7 @@ function Login() {
 		setMessage("ERROR");
 		console.log("Something went wrong...");
 	}
+  // TODO:
 	// BACKEND check si login existe ET si il existe check mdp
 	// BACKEND renvoie success ou failed
 	// SI SUCCESS redirige vers dashboard utilisateur (BIENVENUE {username})
