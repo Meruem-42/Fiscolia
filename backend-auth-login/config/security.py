@@ -23,10 +23,9 @@ def check_password(password):
 		return "Password must contain at least one lowercase character"
 	if not any(char.isdigit() for char in password):
 		return "Password must contain at least one digit character"
-	if password.alphanum():
+	if password.isalnum():
 		return "Password must contain at least one special character"
 	return None
-
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

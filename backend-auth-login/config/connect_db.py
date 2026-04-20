@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from sqlalchemy import create_engine, Column, Integer, String
 from fastapi import FastAPI, Depends
+import logging
 
 # Local files
 from security import get_secret
@@ -15,6 +16,11 @@ db_user = os.getenv("DB_AUTH_USER")
 db_port = os.getenv("DB_AUTH_PORT")
 db_name = os.getenv("DB_AUTH_NAME")
 db_password = get_secret(os.getenv("DB_AUTH_SECRETS"))
+
+# logger = logging.getLogger("uvicorn.error")
+# logger.info(f"DB_USER: {db_user}")
+# logger.info(f"DB_NAME: {db_name}")
+# logger.info(f"DB_PORT: {db_port}")
 
 DATABASE_URL = f"postgresql://{db_user}:{db_password}@db-auth:{db_port}/{db_name}"  # URL to connect to the postgres DB
 
@@ -35,6 +41,8 @@ class UserDB(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True)
     password = Column(String)
+    firstname = Column(String)
+    lastname = Column(String)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

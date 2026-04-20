@@ -29,7 +29,7 @@ function Login() {
 		console.log(response);
 		if (!response.ok)
 		{
-			setMessage("Invalid email format");
+			setMessage("test email format");
 			return ;
 		}
 		const data = await response.json();

@@ -1,6 +1,7 @@
 # Librairies
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 # Local Files
 from connect_db import UserDB, Depends, get_db, auth
@@ -10,6 +11,8 @@ from security import verify_password, hash_password, check_password
 class UserFront(BaseModel):
     email: EmailStr
     password: str
+    firstname: str
+    lastname: str
 
 @auth.post("/api/auth-register")
 def register(data: UserFront, db: Session = Depends(get_db)):
@@ -19,17 +22,17 @@ def register(data: UserFront, db: Session = Depends(get_db)):
             return {"status": "error", "message": error}
         hashed_pwd = hash_password(data.password)
 
-        new_user = UserDB(email=data.email, password=hashed_pwd)
+        new_user = UserDB(email=data.email, password=hashed_pwd, firstname=data.firstname ,lastname=data.lastname)
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
 
-        print(data.email, hash_password(data.password))
         return {"status": "valid", "message": f"Un email de confirmation a été envoyé a {data.email}"}
-    except:
+    except Exception as e:
         db.rollback()
-        return {"status": "error", "message": f"Un email de confirmation a été envoyé a {data.email}"}
-
+        print(f"Error: {e}", flush=True) 
+        # ICI : On renvoie une VRAIE erreur au navigateur
+        raise HTTPException(status_code=400, detail=str(e))
 
 @auth.post("/api/auth-login")
 def login(data: UserFront, db: Session = Depends(get_db)):
