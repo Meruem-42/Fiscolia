@@ -21,6 +21,8 @@ services:
         condition: service_started
       backend-auth:
         condition: service_started
+      backend-upload:
+        condition: service_started
     ports:
       - ${PROXY_EXPOSED_PORT}:80
     networks:
@@ -64,9 +66,14 @@ services:
       - db_auth_pwd
       - db_root_pwd
 
-
-
-
+  backend-upload:
+    container_name: ${PROJECT_NAME}-backend-upload
+    image: backend-upload-image
+    build: ./backend-upload
+    networks:
+      - fiscolia
+    env_file:
+      - .env
 
 networks:
   fiscolia:

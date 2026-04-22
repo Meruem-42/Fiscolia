@@ -23,6 +23,11 @@ function Home() {
 			<button>REGISTER</button>
 		</Link>
 	</div>
+	<div>
+		<Link to="/upload">
+			<button>UPLOAD FILE</button>
+		</Link>
+	</div>
 	</div>
 	)
   }

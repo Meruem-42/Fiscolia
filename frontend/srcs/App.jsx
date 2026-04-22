@@ -6,6 +6,7 @@ import Home from './pages/Homepage/Homepage.jsx';
 import Test_back_end from './pages/Test_back_end';
 import Login from './pages/Login/Login.jsx';
 import Register from './pages/Register/Register.jsx';
+import Upload from './pages/Upload/Upload.jsx';
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/backend" element={<Test_back_end />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+	  <Route path="/upload" element={<Upload />} />
     </Routes>
   </BrowserRouter>
 	)
