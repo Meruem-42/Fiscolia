@@ -31,6 +31,9 @@ back:
 check:
 	@PROJECT_NAME=$(PROJECT_NAME) NB_MICROSERVICES=$(NB_MICROSERVICES)  python3 checker.py
 
+github-actions:
+	@$(MAKE) 
+
 clean:
 	docker compose -p $(PROJECT_NAME) down
 

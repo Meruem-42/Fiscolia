@@ -1,0 +1,45 @@
+name: Fiscolia CI Checker
+
+on: [push]
+
+jobs:
+  run-checker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and Start Services
+        env:  
+          DB_AUTH_USER: ${{ secrets.DB_AUTH_USER }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          DB_AUTH_SECRETS: ${{ secrets.DB_AUTH_SECRETS }}
+          DB_AUTH_PORT: ${{ secrets.DB_AUTH_PORT }}
+          DB_AUTH_NAME: ${{ secrets.DB_AUTH_NAME }}
+          POSTGRES_PASSWORD_FILE: ${{ secrets.POSTGRES_PASSWORD_FILE }}
+          BACK_AUTH_PORT: ${{ secrets.BACK_AUTH_PORT }}
+          FRONT_PORT: ${{ secrets.FRONT_PORT }}
+          PROXY_EXPOSED_PORT: ${{ secrets.PROXY_EXPOSED_PORT }}
+        run:
+          mkdir -p secrets
+          echo "${{ secrets.DB_AUTH_PWD }}" > secrets/db_auth_pwd.txt
+          echo "${{ secrets.DB_ROOT_PWD }}" > secrets/db_root_pwd.txt
+          make github-actions
+
+      - name: Wait for services
+        run: sleep 15
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Fiscolia Checker
+        env:
+          NB_MICROSERVICES: 4
+        run: python checker.py
+
+      - name: Stop services
+        if: always()
+        run: make fclean

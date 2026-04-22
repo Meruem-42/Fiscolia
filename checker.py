@@ -7,9 +7,16 @@ RED = "\033[0;31m"
 CYAN = "\033[0;36m"
 RESET = "\033[0m"
 
+def get_expected_count():
+    try:
+        with open("docker-compose.yml", "r") as f:
+            content = f.read()
+            return content.count("container_name:")
+    except:
+        return 0
 
 def get_container_count():
-	cmd = "docker ps | grep -c 'Up'"
+	cmd = "docker ps --filter 'status=running' -q | wc -l"
 	return int(subprocess.check_output(cmd, shell=True))
 
 def verify_services(expected, count):
@@ -64,7 +71,7 @@ def error_return(expected, count):
 
 
 def main():
-	expected = int(os.getenv("NB_MICROSERVICES", "4"))
+	expected = get_expected_count()
 	count = get_container_count()
 
 	if verify_services(expected, count):
