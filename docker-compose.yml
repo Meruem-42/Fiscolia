@@ -74,6 +74,7 @@ services:
       - fiscolia
     env_file:
       - .env
+    restart: unless-stopped
 
 networks:
   fiscolia:
