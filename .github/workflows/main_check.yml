@@ -55,6 +55,31 @@ jobs:
       - name : Build and start services
         run: make github-actions
 
+      - name: Discord Notification on Failure
+        if: failure()
+        uses: rtCamp/action-discord-notifier@v1
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+          MESSAGE:  |
+            "❌ Fiscolia's CI  failed on the branch ${{ github.ref_name }} !"
+            **Branche :** `${{ github.ref_name }}`
+            **Commit :** `${{ github.sha }}`
+            **Message :** ${{ github.event.head_commit.message }}
+            **Auteur :** ${{ github.actor }}
+            
+            [👉 Voir l'erreur sur GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          TITLE: "Build Failure"
+          COLOR: "#ff0000" # Rouge
+      
+      - name: Discord Notification on Success
+        if: success()
+        uses: rtCamp/action-discord-notifier@v1
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+          MESSAGE: "✅ Fiscolia's CI  succeeded on the branch ${{ github.ref_name }} !"
+          TITLE: "Build Success"
+          COLOR: "#00ff00" # Vert
+
       - name: Stop services and clean up
         if: always()
         run: make fclean
