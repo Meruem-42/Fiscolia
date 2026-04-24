@@ -19,7 +19,7 @@ jobs:
 
       - name : Create env variables for docker environment
         env:
-          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
         run: env | grep PROJECT_NAME
 
 
@@ -28,15 +28,15 @@ jobs:
         run: |
           echo "${{ secrets.DB_AUTH_PWD }}" > secrets/db_auth_pwd.txt
           echo "${{ secrets.DB_ROOT_PWD }}" > secrets/db_root_pwd.txt
-          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" > .env
-          echo "PROXY_EXPOSED_PORT=${{ secrets.PROXY_EXPOSED_PORT }}" >> .env 
-          echo "DB_AUTH_USER=${{ secrets.DB_AUTH_USER }}" >> .env
-          echo "DB_AUTH_SECRETS=${{ secrets.DB_AUTH_SECRETS }}" >> .env
-          echo "DB_AUTH_PORT=${{ secrets.DB_AUTH_PORT }}" >> .env
-          echo "DB_AUTH_NAME=${{ secrets.DB_AUTH_NAME }}" >> .env
-          echo "BACK_AUTH_PORT=${{ secrets.BACK_AUTH_PORT }}" >> .env
-          echo "FRONT_PORT=${{ secrets.FRONT_PORT }}" >> .env
-          echo "POSTGRES_PASSWORD_FILE=${{ secrets.POSTGRES_PASSWORD_FILE }}" >> .env
+          echo "PROJECT_NAME=${{ vars.PROJECT_NAME }}" > .env
+          echo "PROXY_EXPOSED_PORT=${{ vars.PROXY_EXPOSED_PORT }}" >> .env 
+          echo "DB_AUTH_USER=${{ vars.DB_AUTH_USER }}" >> .env
+          echo "DB_AUTH_SECRETS=${{ vars.DB_AUTH_SECRETS }}" >> .env
+          echo "DB_AUTH_PORT=${{ vars.DB_AUTH_PORT }}" >> .env
+          echo "DB_AUTH_NAME=${{ vars.DB_AUTH_NAME }}" >> .env
+          echo "BACK_AUTH_PORT=${{ vars.BACK_AUTH_PORT }}" >> .env
+          echo "FRONT_PORT=${{ vars.FRONT_PORT }}" >> .env
+          echo "POSTGRES_PASSWORD_FILE=${{ vars.POSTGRES_PASSWORD_FILE }}" >> .env
           echo "VERIFICATION .env FILE CONTENT"
           cat .env
           echo "VERIFICATION secrets FILE CONTENT"
