@@ -21,11 +21,7 @@ jobs:
         env:
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-
-        run: |
-          env | grep PROJECT_NAME
-          env | grep DISCORD_WEBHOOK
-
+        run : env | grep PROJECT_NAME
 
       - name: Create .env file and secrets
         run: |
