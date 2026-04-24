@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: List files for debugging
         run : echo "checking out code"
               ls -la
               echo "------------------------------"
@@ -37,6 +39,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Verification Python setup
         run : python --version
 
       - name : Build and start services
