@@ -9,37 +9,39 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        run : echo "checking out code"
+              ls -la
+              echo "------------------------------"
+              tree
 
-      - name: Build and Start Services
-        env:  
-          DB_AUTH_USER: ${{ secrets.DB_AUTH_USER }}
-          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
-          DB_AUTH_SECRETS: ${{ secrets.DB_AUTH_SECRETS }}
-          DB_AUTH_PORT: ${{ secrets.DB_AUTH_PORT }}
-          DB_AUTH_NAME: ${{ secrets.DB_AUTH_NAME }}
-          POSTGRES_PASSWORD_FILE: ${{ secrets.POSTGRES_PASSWORD_FILE }}
-          BACK_AUTH_PORT: ${{ secrets.BACK_AUTH_PORT }}
-          FRONT_PORT: ${{ secrets.FRONT_PORT }}
-          PROXY_EXPOSED_PORT: ${{ secrets.PROXY_EXPOSED_PORT }}
+      - name: Create .env file and secrets
         run:
           mkdir -p secrets
           echo "${{ secrets.DB_AUTH_PWD }}" > secrets/db_auth_pwd.txt
           echo "${{ secrets.DB_ROOT_PWD }}" > secrets/db_root_pwd.txt
-          make github-actions
-
-      - name: Wait for services
-        run: sleep 15
+          echo "${{ secrets.PROXY_EXPOSED_PORT }}" >> .env 
+          echo "${{ secrets.PROJECT_NAME }}" >> .env
+          echo "${{ secrets.DB_AUTH_USER }}" >> .env
+          echo "${{ secrets.DB_AUTH_SECRETS }}" >> .env
+          echo "${{ secrets.DB_AUTH_PORT }}" >> .env
+          echo "${{ secrets.DB_AUTH_NAME }}" >> .env
+          echo "${{ secrets.BACK_AUTH_PORT }}" >> .env
+          echo "${{ secrets.FRONT_PORT }}" >> .env
+          echo "${{ secrets.POSTGRES_PASSWORD_FILE }}" >> .env
+          echo "VERIFICATION .env FILE CONTENT"
+          cat .env
+          echo "VERIFICATION secrets FILE CONTENT"
+          cat secrets/*
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+        run : python --version
 
-      - name: Run Fiscolia Checker
-        env:
-          NB_MICROSERVICES: 4
-        run: python checker.py
+      - name : Build and start services
+        run: make github-actions
 
-      - name: Stop services
+      - name: Stop services and clean up
         if: always()
         run: make fclean

@@ -1,5 +1,4 @@
 PROJECT_NAME=fiscolia
-NB_MICROSERVICES=4
 
 # Couleurs
 GREEN  = \033[0;32m
@@ -29,10 +28,10 @@ back:
 	docker run backend
 
 check:
-	@PROJECT_NAME=$(PROJECT_NAME) NB_MICROSERVICES=$(NB_MICROSERVICES)  python3 checker.py
+	@PROJECT_NAME=$(PROJECT_NAME) python3 checker.py
 
 github-actions:
-	@$(MAKE) 
+	@$(MAKE)
 
 clean:
 	docker compose -p $(PROJECT_NAME) down
