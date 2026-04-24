@@ -11,24 +11,25 @@ jobs:
         uses: actions/checkout@v4
 
       - name: List files for debugging
-        run : echo "checking out code"
+        run : |
+              echo "checking out code"
               ls -la
               echo "------------------------------"
               tree
 
       - name: Create .env file and secrets
-        run:
+        run: |
           echo "${{ secrets.DB_AUTH_PWD }}" > secrets/db_auth_pwd.txt
           echo "${{ secrets.DB_ROOT_PWD }}" > secrets/db_root_pwd.txt
-          echo "${{ secrets.PROXY_EXPOSED_PORT }}" >> .env 
-          echo "${{ secrets.PROJECT_NAME }}" >> .env
-          echo "${{ secrets.DB_AUTH_USER }}" >> .env
-          echo "${{ secrets.DB_AUTH_SECRETS }}" >> .env
-          echo "${{ secrets.DB_AUTH_PORT }}" >> .env
-          echo "${{ secrets.DB_AUTH_NAME }}" >> .env
-          echo "${{ secrets.BACK_AUTH_PORT }}" >> .env
-          echo "${{ secrets.FRONT_PORT }}" >> .env
-          echo "${{ secrets.POSTGRES_PASSWORD_FILE }}" >> .env
+          echo "PROXY_EXPOSED_PORT=${{ secrets.PROXY_EXPOSED_PORT }}" >> .env 
+          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> .env
+          echo "DB_AUTH_USER=${{ secrets.DB_AUTH_USER }}" >> .env
+          echo "DB_AUTH_SECRETS=${{ secrets.DB_AUTH_SECRETS }}" >> .env
+          echo "DB_AUTH_PORT=${{ secrets.DB_AUTH_PORT }}" >> .env
+          echo "DB_AUTH_NAME=${{ secrets.DB_AUTH_NAME }}" >> .env
+          echo "BACK_AUTH_PORT=${{ secrets.BACK_AUTH_PORT }}" >> .env
+          echo "FRONT_PORT=${{ secrets.FRONT_PORT }}" >> .env
+          echo "POSTGRES_PASSWORD_FILE=${{ secrets.POSTGRES_PASSWORD_FILE }}" >> .env
           echo "VERIFICATION .env FILE CONTENT"
           cat .env
           echo "VERIFICATION secrets FILE CONTENT"
