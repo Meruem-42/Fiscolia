@@ -73,9 +73,6 @@ jobs:
                  }]
                }' \
                ${{ secrets.DISCORD_WEBHOOK }}
-            
-          TITLE: "Build Failure"
-          COLOR: "#ff0000" # Rouge
       
       - name: Discord Notification on Success
         if: success()
