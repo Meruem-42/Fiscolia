@@ -1,5 +1,4 @@
 PROJECT_NAME=fiscolia
-NB_MICROSERVICES=4
 
 # Couleurs
 GREEN  = \033[0;32m
@@ -11,28 +10,11 @@ PURPLE = \033[0;35m
 RESET  = \033[0m
 
 all :
+	@$(MAKE) env_check
 	docker compose -p $(PROJECT_NAME) up -d --build
 	@sleep 2
-	@$(MAKE) check -s
+	@$(MAKE) container_check -s
 
-front:
-	docker compose build frontend
-	docker compose up -d frontend
-
-server:
-	docker compose build proxy
-	docker compose up -d proxy
-
-back:
-	docker stop
-	docker build -t backend ./backend-auth
-	docker run backend
-
-check:
-	@PROJECT_NAME=$(PROJECT_NAME) NB_MICROSERVICES=$(NB_MICROSERVICES)  python3 checker.py
-
-github-actions:
-	@$(MAKE) 
 
 clean:
 	docker compose -p $(PROJECT_NAME) down
@@ -43,3 +25,15 @@ fclean:
 
 
 re: clean all
+
+
+# TEST/CHECKER 
+
+env_check:
+	@python3 ./scripts/env_checker.py
+
+container_check:
+	@PROJECT_NAME=$(PROJECT_NAME) python3 ./scripts/container_checker.py
+
+github-actions:
+	@$(MAKE)

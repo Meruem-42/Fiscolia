@@ -1,10 +1,13 @@
 import os
 import subprocess
+import sys
+import time
 
 # Couleurs
 GREEN = "\033[0;32m"
 RED = "\033[0;31m"
 CYAN = "\033[0;36m"
+YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 
 def get_expected_count():
@@ -16,7 +19,8 @@ def get_expected_count():
         return 0
 
 def get_container_count():
-	cmd = "docker ps --filter 'status=running' -q | wc -l"
+	project = os.getenv("PROJECT_NAME", "fiscolia")
+	cmd = f"docker ps --filter 'status=running' --filter 'name=^{project}-' -q | wc -l"
 	return int(subprocess.check_output(cmd, shell=True))
 
 def verify_services(expected, count):
@@ -27,6 +31,7 @@ def success_return():
 	print(f"{GREEN}", "".center(50, "="), f"{RESET}")
 	print(f"{GREEN}", f" ALL MICROSERVICES LAUNCHED ".center(50, "="), f"{RESET}")
 	print(f"{GREEN}", "".center(50, "="), f"{RESET}")
+	sys.exit(0)
 
 def print_failure_logs(services):
 	if not services:
@@ -68,16 +73,22 @@ def error_return(expected, count):
 	print(f"{RED}", "".center(50, "="), f"{RESET}")
 	services = get_unhealthy_services()
 	print_failure_logs(services)
+	sys.exit(1)
 
 
 def main():
 	expected = get_expected_count()
 	count = get_container_count()
+	max_retries = 5 
 
-	if verify_services(expected, count):
-		success_return()
-	else:
-		error_return(expected, count)
+	for attempt in range(max_retries):
+		if verify_services(expected, count):
+			success_return()
+		print(f"{YELLOW}Attempt {attempt + 1}/{max_retries}: {count}/{expected} services running. Retrying...{RESET}")
+		time.sleep(5)
+		count = get_container_count()
+	count = get_container_count()
+	error_return(expected, count)
 
 if __name__ == "__main__":
 	main()
