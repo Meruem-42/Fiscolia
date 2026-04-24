@@ -144,11 +144,11 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
       </div>
       <div className={style.field_container}>
         <p className={style.field_name}>Prenom</p>
-          <input type="password" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Prenom" />
+          <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Prenom" />
       </div>
       <div className={style.field_container}>
         <p className={style.field_name}>Nom</p>
-          <input type="password" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" />
+          <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" />
       </div>
       <div>
 		    <p>{message}</p>
