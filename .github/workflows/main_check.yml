@@ -20,8 +20,11 @@ jobs:
       - name : Create env variables for docker environment
         env:
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
-        run: env | grep PROJECT_NAME
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
 
+        run: |
+          env | grep PROJECT_NAME
+          env | grep DISCORD_WEBHOOK
 
 
       - name: Create .env file and secrets
@@ -57,28 +60,40 @@ jobs:
 
       - name: Discord Notification on Failure
         if: failure()
-        uses: rtCamp/action-discord-notifier@v1
-        env:
-          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-          MESSAGE:  |
-            "❌ Fiscolia's CI  failed on the branch ${{ github.ref_name }} !"
-            **Branche :** `${{ github.ref_name }}`
-            **Commit :** `${{ github.sha }}`
-            **Message :** ${{ github.event.head_commit.message }}
-            **Auteur :** ${{ github.actor }}
+        uses: rtCamp/action-discord-notifier@master
+        run:  |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "username": "Fiscolia Monitor",
+                 "embeds": [{
+                   "title": "❌ Build Failure",
+                   "color": 16711680,
+                   "description": "**Branche :** `${{ github.ref_name }}`\n**Message :** ${{ github.event.head_commit.message }}\n**Auteur :** ${{ github.actor }}\n\n[👉 Voir l'erreur](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                   "footer": { "text": "Commit: ${{ github.sha }}" }
+                 }]
+               }' \
+               ${{ secrets.DISCORD_WEBHOOK }}
             
-            [👉 Voir l'erreur sur GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
           TITLE: "Build Failure"
           COLOR: "#ff0000" # Rouge
       
       - name: Discord Notification on Success
         if: success()
-        uses: rtCamp/action-discord-notifier@v1
-        env:
-          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-          MESSAGE: "✅ Fiscolia's CI  succeeded on the branch ${{ github.ref_name }} !"
-          TITLE: "Build Success"
-          COLOR: "#00ff00" # Vert
+        uses: rtCamp/action-discord-notifier@master
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "username": "Fiscolia Monitor",
+                 "embeds": [{
+                   "title": "✅ Build Success",
+                   "color": 65280,
+                   "description": "Le CI Fiscolia a réussi sur la branche `${{ github.ref_name }}`.",
+                   "footer": { "text": "Fiscolia Infrastructure is UP" }
+                 }]
+               }' \
+               ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Stop services and clean up
         if: always()
