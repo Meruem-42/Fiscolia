@@ -17,6 +17,12 @@ jobs:
               echo "------------------------------"
               tree
 
+      - name : Create env variables for docker environment
+        env:
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+
+
+
       - name: Create .env file and secrets
         run: |
           echo "${{ secrets.DB_AUTH_PWD }}" > secrets/db_auth_pwd.txt
