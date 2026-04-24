@@ -60,7 +60,6 @@ jobs:
 
       - name: Discord Notification on Failure
         if: failure()
-        uses: rtCamp/action-discord-notifier@master
         run:  |
           curl -H "Content-Type: application/json" \
                -X POST \
@@ -80,7 +79,6 @@ jobs:
       
       - name: Discord Notification on Success
         if: success()
-        uses: rtCamp/action-discord-notifier@master
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
