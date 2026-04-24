@@ -8,14 +8,18 @@ from connect_db import UserDB, Depends, get_db, auth
 from security import verify_password, hash_password, check_password
 
 
-class UserFront(BaseModel):
+class UserRegister(BaseModel):
     email: EmailStr
     password: str
     firstname: str
     lastname: str
 
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
 @auth.post("/api/auth-register")
-def register(data: UserFront, db: Session = Depends(get_db)):
+def register(data: UserRegister, db: Session = Depends(get_db)):
     try:
         error = check_password(data.password)
         if error:
@@ -35,7 +39,7 @@ def register(data: UserFront, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=str(e))
 
 @auth.post("/api/auth-login")
-def login(data: UserFront, db: Session = Depends(get_db)):
+def login(data: UserLogin, db: Session = Depends(get_db)):
     try:
         user = db.query(UserDB).filter(UserDB.email == data.email).first()
         if not verify_password(data.password, user.password):
