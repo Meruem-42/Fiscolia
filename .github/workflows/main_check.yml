@@ -21,8 +21,8 @@ jobs:
         run: |
           echo "${{ secrets.DB_AUTH_PWD }}" > secrets/db_auth_pwd.txt
           echo "${{ secrets.DB_ROOT_PWD }}" > secrets/db_root_pwd.txt
+          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" > .env
           echo "PROXY_EXPOSED_PORT=${{ secrets.PROXY_EXPOSED_PORT }}" >> .env 
-          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> .env
           echo "DB_AUTH_USER=${{ secrets.DB_AUTH_USER }}" >> .env
           echo "DB_AUTH_SECRETS=${{ secrets.DB_AUTH_SECRETS }}" >> .env
           echo "DB_AUTH_PORT=${{ secrets.DB_AUTH_PORT }}" >> .env
