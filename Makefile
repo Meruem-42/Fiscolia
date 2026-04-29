@@ -11,16 +11,17 @@ RESET  = \033[0m
 
 all :
 	@$(MAKE) env_check
-	docker compose -p $(PROJECT_NAME) --project-directory ./srcs/ --env-file .env up -d --build
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml up -d --build --no-cache
 	@sleep 2
 	@$(MAKE) container_check -s
 
 
 clean:
-	docker compose -p $(PROJECT_NAME) --project-directory ./srcs/ --env-file .env down
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down
 
 fclean:
-	docker compose -p $(PROJECT_NAME) --project-directory ./srcs/ --env-file .env down --rmi all
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down --rmi all
+	docker image prune -a
 	docker system prune -f
 
 

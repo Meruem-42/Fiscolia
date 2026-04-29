@@ -8,6 +8,7 @@ RUN pip install fastapi uvicorn pydantic email_validator sqlalchemy psycopg2-bin
 
 COPY ./config/ .
 
+ARG BACK_AUTH_PORT
 EXPOSE $BACK_AUTH_PORT
 
 CMD [ "sh", "-c", "uvicorn main:auth --host 0.0.0.0 --port ${BACK_AUTH_PORT}" ]

@@ -2,7 +2,10 @@ services:
   frontend:
     container_name: ${PROJECT_NAME}-frontend
     image: frontend-image
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        FRONT_PORT: ${FRONT_PORT}
     networks:
       - fiscolia
     volumes:
@@ -33,7 +36,10 @@ services:
   backend-auth:
     container_name: ${PROJECT_NAME}-backend-auth
     image: backend-auth-image
-    build: ./backend-auth-login
+    build: 
+      context: ./backend-auth-login
+      args:
+        BACK_AUTH_PORT: ${BACK_AUTH_PORT}
     security_opt:
       - label:disable
     depends_on:
@@ -49,7 +55,10 @@ services:
   db-auth:
     container_name: ${PROJECT_NAME}-db-auth
     image: db-auth-image
-    build: ./database-auth
+    build:
+      context: ./database-auth
+      args:
+        DB_AUTH_PORT: ${DB_AUTH_PORT}
     security_opt:
       - label:disable
     healthcheck:
