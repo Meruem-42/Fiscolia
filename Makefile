@@ -28,6 +28,12 @@ fclean:
 re: clean all
 
 
+
+# ADR
+
+adr:
+	@python3 ./scripts/create_adr.py 
+
 # TEST/CHECKER 
 
 env_check:
