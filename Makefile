@@ -11,7 +11,7 @@ RESET  = \033[0m
 
 all :
 	@$(MAKE) env_check
-	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml up -d --build --no-cache
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml up -d --build
 	@sleep 2
 	@$(MAKE) container_check -s
 
