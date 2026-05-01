@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import readline
 from datetime import date
 
 
@@ -57,7 +58,7 @@ def create_adr():
     adr_status = choose_status()
     adr_dir = "docs/adr"
     existing_adrs = [f for f in os.listdir(adr_dir) if f.endswith(".md")]
-    next_num = len(existing_adrs)    
+    next_num = len(existing_adrs) + 1  
     filename = f"{next_num:04d}-{title.lower().replace(' ', '-')}.md"
     filepath = os.path.join(adr_dir, filename)
 
