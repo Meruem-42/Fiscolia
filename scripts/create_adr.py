@@ -2,6 +2,7 @@ import os
 import sys
 import re
 import readline
+import questionary
 from datetime import date
 
 
@@ -14,13 +15,15 @@ RESET = "\033[0m"
 
 
 def adr_menu():
-    print(f"{CYAN}What would you like to do?{RESET}")
-    print("1. Create a new ADR")
-    print("2. List existing ADRs")
-    print("3. Update an ADR")
-    print("4. Exit")
-
-    return input(f"{CYAN}-> Select an option (1-4): {RESET}").strip()
+    return questionary.select(
+        "Choose an option:",
+        choices=[
+            "1. Create new ADR",
+            "2. List existing ADRs",
+            "3. Update ADR status",
+            "4. Exit"
+        ]
+    ).ask()
 
 def show_adr_status_help():
     print("\n--- ADR Status Help ---")
@@ -33,18 +36,15 @@ def show_adr_status_help():
 
 def choose_status():
     while (True):
-        adr_status_input = f"{CYAN}-> Enter the ADR status (Proposed, Accepted, Rejected, Deprecated, Superseded)\n{YELLOW}/help to get more info about each status{RESET}\n# {RESET}".strip()
-        adr_status = input(adr_status_input).strip()
-        if not adr_status:
-            print(f"{RED}❌ Status cannot be empty.{RESET}")
-            sys.exit(1)
-        if adr_status.lower() == "/help":
+        adr_status = questionary.select("Select ADR status:", choices=["Proposed", "Accepted", "Rejected", "Deprecated", "Superseded", "Help","Cancel"]).ask()
+        
+        if adr_status == "Cancel":
+            print(f"{YELLOW}Operation cancelled. Returning to menu...{RESET}")
+            sys.exit(0)
+        elif adr_status == "Help":
             show_adr_status_help()
-            continue
-        if adr_status.lower() not in ["proposed", "accepted", "rejected", "deprecated", "superseded"]:
-            print(f"{RED}❌ Invalid status. Please enter 'Proposed', 'Accepted','Rejected', 'Deprecated', or 'Superseded'.{RESET}")
-            continue
-        break
+        elif adr_status:    
+            break
     return adr_status
 
 
@@ -168,17 +168,11 @@ def get_prev_status(adr_path):
 def update_adr():
     print("Type ADR number to update (ex: 0001, 0010...), or type 'exit' to return to the menu.")
     adr_dir = "docs/adr"
-    list_adrs()
-    adr_to_edit = input(f"{CYAN}-> Enter ADR number to update:\n{RESET}# ").strip()
-
-    adr_numbers = [f.split("-")[0] for f in os.listdir(adr_dir) if f.endswith(".md")]
-    if adr_to_edit.lower() == "exit":
-        return
-    if adr_to_edit not in adr_numbers:
-        print(f"{RED}❌ ADR number {adr_to_edit} not found.{RESET}")
-        return
-    adr_file = next(f for f in os.listdir(adr_dir) if f.startswith(adr_to_edit) and f.endswith(".md"))
-    adr_path = os.path.join(adr_dir, adr_file)
+    selected_adr = questionary.select(
+        "Select an ADR to update:",
+        choices=[f for f in os.listdir(adr_dir) if f.endswith(".md")]
+    ).ask()
+    adr_path = os.path.join(adr_dir, selected_adr)
 
     print(f"{adr_path}")
     prev_status = get_prev_status(adr_path)
@@ -206,23 +200,23 @@ def adr_assistant():
     print(f"{PURPLE}=" * 50, f"{RESET}\n")
     while True:
         choice = adr_menu()
-        if choice == "1":
+        if choice == "1. Create new ADR":
             print(f"{PURPLE}=" * 50)
             print(" CREATE ADR ".center(50, "="), f"{RESET}")
             print(f"{PURPLE}=" * 50, f"{RESET}\n")
             create_adr()
             break
-        elif choice == "2":
+        elif choice == "2. List existing ADRs":
             print(f"{PURPLE}=" * 50)
             print(" LIST ADRS ".center(50, "="), f"{RESET}")
             print(f"{PURPLE}=" * 50, f"{RESET}\n")
             list_adrs()
-        elif choice == "3":
+        elif choice == "3. Update ADR status":
             print(f"{PURPLE}=" * 50)
             print(" UPDATE ADR ".center(50, "="), f"{RESET}")
             print(f"{PURPLE}=" * 50, f"{RESET}\n")
             update_adr()
-        elif choice == "4":
+        elif choice == "4. Exit":
             print(f"{GREEN}Exiting...{RESET}")
             sys.exit(0)
         else:

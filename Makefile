@@ -32,7 +32,10 @@ re: clean all
 # ADR
 
 adr:
-	@python3 ./scripts/create_adr.py 
+	docker run -it --rm -v $(PWD):/app:Z -w /app \
+		python:3.11-slim \
+		sh -c "pip install -q questionary && python scripts/create_adr.py"
+# 	@python3 ./scripts/create_adr.py 
 
 # TEST/CHECKER 
 
