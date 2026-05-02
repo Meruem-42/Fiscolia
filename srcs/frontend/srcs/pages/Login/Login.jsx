@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 
 function Login() {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -16,36 +17,30 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Données récupérées :", formData);
-	// ENVOYER les datas au bon backend
-	try {
-		const response = await fetch("/api/auth-login", {
-			method: 'POST',
-			headers: {
-    		'Content-Type': 'application/json',
-  			},
-			body: JSON.stringify(formData)
-		});
-		console.log(response);
-		if (!response.ok)
-		{
-			setMessage("test email format");
-			return ;
-		}
-		const data = await response.json();
-		console.log(data);
-		setMessage(data.message);
-	}
-	catch (error) {
-		setMessage("ERROR");
-		console.log("Something went wrong...");
-	}
-  // TODO:
-	// BACKEND check si login existe ET si il existe check mdp
-	// BACKEND renvoie success ou failed
-	// SI SUCCESS redirige vers dashboard utilisateur (BIENVENUE {username})
-	// SI FAILED message  de fail
+    try {
+      const response = await fetch("/api/auth-login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Important: send cookies
+        body: JSON.stringify(formData)
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        setMessage(errorData.detail || "Email or password incorrect");
+        return;
+      }
+
+      const data = await response.json();
+      setMessage(data.message);
+      
+      // Redirect to UserSession dashboard after successful login
+      setTimeout(() => navigate("/session"), 500);
+    } catch (error) {
+      setMessage("ERROR: " + error.message);
+    }
   };
 
   return (
@@ -67,30 +62,5 @@ function Login() {
     </div>
   );
 }
-
-// function MonFormulaire() {
-//   const [formData, setFormData] = useState({
-//     nom: "",
-//     email: "",
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault(); // empêche le rechargement de la page
-//     console.log("Données récupérées :", formData);
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input name="nom" value={formData.email} onChange={handleChange} placeholder="Nom" />
-//       <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-//       <button type="submit">Envoyer</button>
-//     </form>
-//   );
-// }
 
 export default Login

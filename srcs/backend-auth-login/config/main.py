@@ -71,6 +71,22 @@ def logout(response: Response, session_id: Optional[str] = Cookie(None), db: Ses
     response.delete_cookie("session_id")
     return {"message": "Logged out"}
 
+
+@auth.get("/api/me")
+def get_me(current_user: UserDB = Depends(get_current_user), response: Response = None):
+    """Get current authenticated user info"""
+    # Disable cache for this endpoint
+    if response:
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "firstname": current_user.firstname,
+        "lastname": current_user.lastname
+    }
+
 # backend-auth/
 # ├── app/
 # │   ├── main.py            # Point d'entrée (FastAPI)

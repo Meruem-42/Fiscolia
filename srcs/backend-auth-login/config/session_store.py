@@ -24,7 +24,7 @@ def get_session(db: Session, session_id: str):
     row = db.query(SessionDB).filter(SessionDB.id == session_id).first()
     if not row:
         return None
-    if row.expires_at < datetime.now():
+    if row.expires_at < datetime.now(timezone.utc):
         try:
             db.delete(row)
             db.commit()
