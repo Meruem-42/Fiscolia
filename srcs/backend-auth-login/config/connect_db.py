@@ -3,10 +3,14 @@ import os
 from contextlib import asynccontextmanager
 
 #Libraries
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, ForeignKey, Index, func
 from fastapi import FastAPI, Depends
+from uuid import uuid4
 import logging
+import asyncio
+from datetime import datetime, timedelta, timezone
 
 # Local files
 from security import get_secret
@@ -44,10 +48,49 @@ class UserDB(Base):
     firstname = Column(String)
     lastname = Column(String)
 
+class SessionDB(Base):
+    __tablename__ = "sessions"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    data = Column(JSONB, nullable=True)  # JSONB allows to construct a binary JSON (slower on writing but way faster for reading)
+    expires_at = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now()) # func.now() is translated by ORM to SQL -> NOW() :
+    																		# it garantees that only the DB server is involved in the timing and not python app server
+
+    # Index composite pour les lookups rapides
+    __table_args__ = (
+        Index('idx_session_id_expires', 'id', 'expires_at'),
+    )
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
-    yield
+
+    async def _cleanup_loop():
+        # loop to check every 3600 seconds and clean the expired sessions 
+        while True:
+            await asyncio.sleep(3600) # tells to the server it will wait 1 hour before doing its job after, and the server remains accessible anyway
+            cleanup_session = SessionLocal()
+            try:
+                try:
+                    cleanup_session.query(SessionDB).filter(SessionDB.expires_at < datetime.now(timezone.utc)).delete()
+                    cleanup_session.commit()
+                except Exception:
+                    cleanup_session.rollback()
+            finally:
+                cleanup_session.close()
+
+    cleanup_task = asyncio.create_task(_cleanup_loop())
+    try:
+        yield
+    finally:
+        cleanup_task.cancel()
+        try:
+            await cleanup_task
+        except asyncio.CancelledError:
+            pass
 
 
 auth = FastAPI(lifespan=lifespan)
