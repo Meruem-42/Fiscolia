@@ -23,10 +23,10 @@ fclean:
 	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down --rmi all
 	docker image prune -a
 	docker system prune -f
+	docker volume rm ${PROJECT_NAME}_db_auth
 
 
 re: clean all
-
 
 
 # ADR

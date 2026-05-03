@@ -55,6 +55,8 @@ services:
   db-auth:
     container_name: ${PROJECT_NAME}-db-auth
     image: db-auth-image
+    volumes:
+      - db_auth:/var/lib/postgresql/data:Z
     build:
       context: ./database-auth
       args:
@@ -90,8 +92,13 @@ networks:
     name: fiscolia-network
     driver: bridge
 
+volumes:
+  db_auth:
+    driver: local
+
 secrets:
   db_auth_pwd:
     file: ../secrets/db_auth_pwd.txt
   db_root_pwd:
     file: ../secrets/db_root_pwd.txt
+
