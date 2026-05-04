@@ -23,16 +23,19 @@ fclean:
 	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down --rmi all
 	docker image prune -a
 	docker system prune -f
+	docker volume rm ${PROJECT_NAME}_db_auth
 
 
 re: clean all
 
 
-
 # ADR
 
 adr:
-	@python3 ./scripts/create_adr.py 
+	docker run -it --rm -v $(PWD):/app:Z -w /app \
+		python:3.11-slim \
+		sh -c "pip install -q questionary && python scripts/create_adr.py"
+# 	@python3 ./scripts/create_adr.py 
 
 # TEST/CHECKER 
 
