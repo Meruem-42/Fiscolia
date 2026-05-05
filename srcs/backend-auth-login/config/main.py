@@ -10,6 +10,8 @@ from connect_db import UserDB, get_db, auth
 from security import verify_password, hash_password, check_password
 from session_store import create_session, get_session, delete_session
 
+from predict import predict_profile
+
 
 class UserRegister(BaseModel):
     email: EmailStr
@@ -30,7 +32,7 @@ def register(data: UserRegister, db: Session = Depends(get_db)):
         hashed_pwd = hash_password(data.password)
 
         new_user = UserDB(email=data.email, password=hashed_pwd, firstname=data.firstname ,lastname=data.lastname,
-                          etat_civil=2, quotient_familial=1, situation_specifique=0, rni=55200, csp=3)
+                          etat_civil=1, quotient_familial=1, situation_specifique=2, rni=22000000, csp=4)
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
@@ -62,7 +64,20 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
     # create session (7 days)
     session_id = create_session(db, user.id, data={"email": user.email}, ttl_seconds=7 * 24 * 3600)
     response.set_cookie(key="session_id", value=session_id, httponly=True, samesite="lax", max_age=7 * 24 * 3600)
-    return {"message": f"Bienvenue {user.email}"}
+
+    user_data = {
+        "index":				user.id,
+		"etat_civil":           user.etat_civil,
+		"quotient_familial":    user.quotient_familial,
+		"situation_specifique":  user.situation_specifique,
+		"rni":                  user.rni,
+		"csp":                  user.csp,
+        
+	}
+    profil = predict_profile(user_data)
+    print("DEBUG")
+    print(profil)
+    return {"message": f"Bienvenue {user.email}, vous appartenez au groupe {profil}"}
 
 
 @auth.post("/api/auth-logout")

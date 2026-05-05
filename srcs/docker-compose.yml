@@ -47,6 +47,8 @@ services:
         condition: service_healthy
     networks:
       - fiscolia
+    volumes:
+      - ../models:/models:ro
     env_file:
       - ../.env
     secrets:

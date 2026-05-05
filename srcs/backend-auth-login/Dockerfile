@@ -1,10 +1,20 @@
-FROM python:3.14-slim
+FROM python:3.11-slim
 
 
 WORKDIR /app
 
 RUN apt update
 RUN pip install fastapi uvicorn pydantic email_validator sqlalchemy psycopg2-binary "passlib[bcrypt]" bcrypt==4.0.1
+
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+RUN pip install --no-cache-dir \
+    pandas \
+    numpy \
+    scikit-learn \
+    matplotlib \
+    seaborn \
+    joblib
 
 COPY ./config/ .
 

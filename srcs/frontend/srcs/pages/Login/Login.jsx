@@ -37,7 +37,7 @@ function Login() {
       setMessage(data.message);
       
       // Redirect to UserSession dashboard after successful login
-      setTimeout(() => navigate("/session"), 500);
+      setTimeout(() => navigate("/session"), 5000);
     } catch (error) {
       setMessage("ERROR: " + error.message);
     }
