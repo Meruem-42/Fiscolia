@@ -38,6 +38,9 @@ adr:
 env_check:
 	@python3 ./scripts/env_checker.py
 
+create_users:
+	@python3 scripts/create_user/create_user.py	
+
 container_check:
 	@PROJECT_NAME=$(PROJECT_NAME) python3 ./scripts/container_checker.py
 
