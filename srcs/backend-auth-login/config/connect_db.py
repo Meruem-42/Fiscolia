@@ -47,6 +47,11 @@ class UserDB(Base):
     password = Column(String)
     firstname = Column(String)
     lastname = Column(String)
+    etat_civil = Column(Integer)
+    quotient_familial = Column(Integer)
+    situation_specifique = Column(Integer)
+    rni = Column(Integer)
+    csp = Column(Integer)
 
 class SessionDB(Base):
     __tablename__ = "sessions"

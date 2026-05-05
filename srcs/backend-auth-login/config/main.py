@@ -29,7 +29,8 @@ def register(data: UserRegister, db: Session = Depends(get_db)):
             return {"status": "error", "message": error}
         hashed_pwd = hash_password(data.password)
 
-        new_user = UserDB(email=data.email, password=hashed_pwd, firstname=data.firstname ,lastname=data.lastname)
+        new_user = UserDB(email=data.email, password=hashed_pwd, firstname=data.firstname ,lastname=data.lastname,
+                          etat_civil=2, quotient_familial=1, situation_specifique=0, rni=55200, csp=3)
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
@@ -84,7 +85,12 @@ def get_me(current_user: UserDB = Depends(get_current_user), response: Response 
         "id": current_user.id,
         "email": current_user.email,
         "firstname": current_user.firstname,
-        "lastname": current_user.lastname
+        "lastname": current_user.lastname,
+        "etat_civil": current_user.etat_civil,
+        "rni": current_user.rni,
+		"csp": current_user.csp,
+        "quotient_familial": current_user.quotient_familial,
+		"situation_specifique": current_user.situation_specifique
     }
 
 # backend-auth/
