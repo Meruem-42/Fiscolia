@@ -1,14 +1,41 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function Login() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [checkingSession, setCheckingSession] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await fetch('/api/me', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+          },
+        });
+
+        if (response.ok) {
+          navigate('/session', { replace: true });
+          return;
+        }
+      } catch (error) {
+        // Ignore network errors here and keep login form available.
+      } finally {
+        setCheckingSession(false);
+      }
+    };
+
+    checkSession();
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +69,10 @@ function Login() {
       setMessage("ERROR: " + error.message);
     }
   };
+
+  if (checkingSession) {
+    return <p style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</p>;
+  }
 
   return (
     <div style={{ textAlign: "center", alignContent: "center" }}>

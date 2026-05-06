@@ -60,7 +60,7 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email or password incorrect")
     # create session (7 days)
     session_id = create_session(db, user.id, data={"email": user.email}, ttl_seconds=7 * 24 * 3600)
-    response.set_cookie(key="session_id", value=session_id, httponly=True, samesite="lax", max_age=7 * 24 * 3600)
+    response.set_cookie(key="session_id", value=session_id, httponly=True, samesite="lax", max_age=7 * 24 * 3600, secure=True)
     return {"message": f"Bienvenue {user.email}"}
 
 
