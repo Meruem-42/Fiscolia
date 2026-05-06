@@ -45,6 +45,9 @@ services:
     depends_on:
       db-auth:
         condition: service_healthy
+      hashi-corp-vault:
+        condition: service_started
+
     networks:
       - fiscolia
     env_file:
@@ -86,6 +89,23 @@ services:
   #   env_file:
   #     - ../.env
   #   restart: unless-stopped
+
+  hashi-corp-vault:
+    container_name: ${PROJECT_NAME}-vault
+    image: vault-image
+    build:
+      context: ./hashi-corp-vault
+      args:
+        VAULT_PORT: ${VAULT_PORT}
+    ports:
+      - "${VAULT_PORT}:${VAULT_PORT}"
+    cap_add:
+      - IPC_LOCK
+    env_file:
+      - ../.env
+    networks:
+      - fiscolia
+
 
 networks:
   fiscolia:

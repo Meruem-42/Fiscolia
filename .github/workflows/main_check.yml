@@ -37,6 +37,7 @@ jobs:
           echo "BACK_UPLOAD_PORT=${{ vars.BACK_UPLOAD_PORT }}" >> .env
           echo "FRONT_PORT=${{ vars.FRONT_PORT }}" >> .env
           echo "POSTGRES_PASSWORD_FILE=${{ vars.POSTGRES_PASSWORD_FILE }}" >> .env
+          echo "VAULT_PORT"=${{ vars.VAULT_PORT }} >> .env
           echo "VERIFICATION .env FILE CONTENT"
           cat .env
           echo "VERIFICATION secrets FILE CONTENT"
