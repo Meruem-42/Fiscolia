@@ -27,7 +27,7 @@ services:
       # backend-upload:
       #   condition: service_started
     ports:
-      - ${PROXY_EXPOSED_PORT}:80
+      - ${PROXY_EXPOSED_PORT}:443
     networks:
       - fiscolia
     env_file:
