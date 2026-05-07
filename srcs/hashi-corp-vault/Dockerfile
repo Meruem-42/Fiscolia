@@ -1,4 +1,4 @@
-FROM docker.io/hashicorp/vault:2.0
+FROM docker.io/hashicorp/vault:1.13.3
 
 ARG VAULT_PORT
 EXPOSE $VAULT_PORT
