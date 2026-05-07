@@ -1,6 +1,4 @@
 PROJECT_NAME=fiscolia
-NB_MICROSERVICES=5
-
 
 # Couleurs
 GREEN  = \033[0;32m
@@ -11,35 +9,40 @@ CYAN   = \033[0;36m
 PURPLE = \033[0;35m
 RESET  = \033[0m
 
-
-
 all :
-	docker compose -p $(PROJECT_NAME) up -d --build
+	@$(MAKE) env_check
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml up -d --build
 	@sleep 2
-	@$(MAKE) check -s
+	@$(MAKE) container_check -s
 
-front:
-	docker compose build frontend
-	docker compose up -d frontend
-
-server:
-	docker compose build nginx
-	docker compose up -d nginx
-
-back:
-	docker stop
-	docker build -t backend ./backend-auth
-	docker run backend
-
-check:
-	@PROJECT_NAME=$(PROJECT_NAME) NB_MICROSERVICES=$(NB_MICROSERVICES)  python3 checker.py
 
 clean:
-	docker compose -p $(PROJECT_NAME) down
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down
 
 fclean:
-	docker compose -p $(PROJECT_NAME) down --rmi all
-	docker system prune -f
-
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down -v --rmi all
 
 re: clean all
+
+
+# ADR
+
+adr:
+	docker run -it --rm -v $(PWD):/app:Z -w /app \
+		python:3.11-slim \
+		sh -c "pip install -q questionary && python scripts/create_adr.py"
+# 	@python3 ./scripts/create_adr.py 
+
+# TEST/CHECKER 
+
+env_check:
+	@python3 ./scripts/env_checker.py
+
+create_users:
+	@python3 scripts/create_user/create_user.py	
+
+container_check:
+	@PROJECT_NAME=$(PROJECT_NAME) python3 ./scripts/container_checker.py
+
+github-actions:
+	@$(MAKE)
