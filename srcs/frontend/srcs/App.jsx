@@ -8,7 +8,7 @@ import Login from './pages/Login/Login.jsx';
 import Register from './pages/Register/Register.jsx';
 import Upload from './pages/Upload/Upload.jsx';
 import UserSession from './pages/UserSession/UserSession.jsx';
-import Chatbot from './pages/Chatbot';
+import Chatbot from './pages/Chatbot/Chatbot.jsx';
 
 function App() {
 	return (
