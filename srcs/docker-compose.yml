@@ -97,6 +97,9 @@ services:
       context: ./hashi-corp-vault
       args:
         VAULT_PORT: ${VAULT_PORT}
+        VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID}
+        VAULT_DEV_LISTEN_ADDRESS: ${VAULT_DEV_LISTEN_ADDRESS}
+        VAULT_ADDR: ${VAULT_ADDR}
     ports:
       - ${VAULT_PORT}:${VAULT_PORT}
     cap_add:
