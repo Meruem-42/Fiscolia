@@ -106,6 +106,9 @@ services:
       - IPC_LOCK
     env_file:
       - ../.env
+    secrets:
+      - db_auth_pwd
+      - db_root_pwd
     networks:
       - fiscolia
 
