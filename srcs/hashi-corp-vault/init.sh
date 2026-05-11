@@ -10,7 +10,7 @@ export VAULT_ADDR=${VAULT_ADDR}
 export VAULT_TOKEN=${VAULT_DEV_ROOT_TOKEN_ID}
 
 vault status
-vault secrets enable -version=1 -path=legacy-secrets kv
+vault secrets enable -version=2 -path=legacy-secrets kv
 
 vault kv put secret/database \
     project_name=${PROJECT_NAME} \

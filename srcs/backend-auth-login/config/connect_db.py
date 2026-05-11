@@ -1,5 +1,7 @@
 # Standart
 import os
+import time
+import hvac
 from contextlib import asynccontextmanager
 
 #Libraries
@@ -15,11 +17,23 @@ from datetime import datetime, timedelta, timezone
 # Local files
 from security import get_secret
 
+vault_user = hvac.Client(url=os.getenv('VAULT_ADDR'), token=os.getenv('VAULT_DEV_ROOT_TOKEN_ID'))
+while True:
+    try:
+        db_secrets = vault_user.secrets.kv.v2.read_secret_version(
+            path='database'
+        )
+        break
+    except Exception as e:
+        print(f"Vault not ready yet: {e}")
+        time.sleep(2)
 
-db_user = os.getenv("DB_AUTH_USER")
-db_port = os.getenv("DB_AUTH_PORT")
-db_name = os.getenv("DB_AUTH_NAME")
-db_password = get_secret(os.getenv("DB_AUTH_SECRETS"))
+#db_secrets = vault_user.secrets.kv.v2.read_secret_version(path='database')
+#
+db_user = db_secrets['data']['data']['db_user']
+db_port = db_secrets['data']['data']['db_port']
+db_name = db_secrets['data']['data']['db_name']
+db_password = db_secrets['data']['data']['db_password']
 
 # logger = logging.getLogger("uvicorn.error")
 # logger.info(f"DB_USER: {db_user}")

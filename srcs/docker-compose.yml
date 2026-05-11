@@ -45,8 +45,8 @@ services:
     depends_on:
       db-auth:
         condition: service_healthy
-      #hashi-corp-vault:
-      #  condition: service_started
+      hashi-corp-vault:
+        condition: service_healthy
 
     networks:
       - fiscolia
@@ -104,6 +104,11 @@ services:
       - ${VAULT_PORT}:${VAULT_PORT}
     cap_add:
       - IPC_LOCK
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     env_file:
       - ../.env
     secrets:
