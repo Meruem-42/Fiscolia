@@ -15,12 +15,20 @@ all :
 	@sleep 2
 	@$(MAKE) container_check -s
 
+chatbot:
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml --profile chatbot up -d --build ollama
+	@echo "Waiting for ollama to be healthy..."
+	@until [ "$$(docker inspect --format='{{.State.Health.Status}}' $(PROJECT_NAME)-ollama)" = "healthy" ]; do sleep 1; done
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml exec -T ollama ollama pull mistral:latest
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml exec -T ollama ollama pull nomic-embed-text
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml --profile chatbot up -d backend-chatbot
+
 
 clean:
-	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml --profile chatbot down
 
 fclean:
-	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down -v --rmi all
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml --profile chatbot down -v --rmi all
 
 re: clean all
 
