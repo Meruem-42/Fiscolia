@@ -12,7 +12,7 @@ listener "tcp" {
 }
 
 # How Vault announces itself to other services
-api_addr = "http://vault:8200"
+api_addr = "${VAULT_API_ADDR}"
 
 # Disable memory lock (required in Docker without special privileges)
 disable_mlock = true

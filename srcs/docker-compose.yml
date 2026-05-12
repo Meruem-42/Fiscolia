@@ -124,14 +124,11 @@ services:
     cap_add:
       - IPC_LOCK           # Required by Vault to lock memory
     ports:
-      - "8200:8200"        # Vault UI + API (accessible from host for debugging)
+      - "${VAULT_PORT}:${VAULT_PORT}"        # Vault UI + API (accessible from host for debugging)
     volumes:
       - ./vault/config:/vault/config:ro
       - ./vault/scripts:/vault/scripts:ro
       - vault_data:/vault/data # persistent encrypted storage
-    environment:
-      VAULT_ADDR: "http://127.0.0.1:8200"
-      PROJECT_NAME: ${PROJECT_NAME} #vault save it encrypted
     command: sh /vault/scripts/entrypoint.sh
     healthcheck:
       test: ["CMD", "sh", "-c", "vault status | grep -q 'Sealed.*false'"]

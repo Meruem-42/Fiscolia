@@ -3,7 +3,7 @@
 
 set -e
 
-export VAULT_ADDR="http://127.0.0.1:8200"
+export VAULT_ADDR="${VAULT_ADDR}"
 KEYS_FILE="/vault/data/init-keys.json"
 
 vault server -config=/vault/config/vault.hcl &
