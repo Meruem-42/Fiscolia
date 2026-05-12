@@ -39,6 +39,7 @@ jobs:
           echo "POSTGRES_PASSWORD_FILE=${{ vars.POSTGRES_PASSWORD_FILE }}" >> .env
           echo "VAULT_PORT"=${{ vars.VAULT_PORT }} >> .env
           echo "VAULT_ADDR"=${{ vars.VAULT_ADDR }} >> .env
+          echo "VAULT_TOKEN_FILE"=${{ vars.VAULT_TOKEN_FILE }} >> .env
           echo "VAULT_API_ADDR"=${{ vars.VAULT_API_ADDR }} >> .env
           echo "VERIFICATION .env FILE CONTENT"
           cat .env

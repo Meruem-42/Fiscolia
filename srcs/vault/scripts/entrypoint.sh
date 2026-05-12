@@ -1,5 +1,4 @@
 #!/bin/sh
-# entrypoint.sh
 
 set -e
 
@@ -26,7 +25,7 @@ if [ "$INITIALIZED" = "false" ]; then
 fi
 
 echo "==> Unsealing Vault..."
-# awk читає рядок з hex ключем і витягує значення між лапками
+# awk read the hex value between ""
 UNSEAL_KEY=$(awk -F'"' '/"unseal_keys_hex"/{getline; print $2}' "$KEYS_FILE")
 ROOT_TOKEN=$(awk -F'"' '/"root_token"/{print $4}' "$KEYS_FILE")
 

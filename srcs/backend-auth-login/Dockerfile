@@ -4,7 +4,7 @@ FROM python:3.14-slim
 WORKDIR /app
 
 RUN apt update
-RUN pip install fastapi uvicorn pydantic email_validator sqlalchemy psycopg2-binary "passlib[bcrypt]" bcrypt==4.0.1 hvac
+RUN pip install fastapi uvicorn pydantic email_validator sqlalchemy psycopg2-binary "passlib[bcrypt]" bcrypt==4.0.1 requests
 
 
 COPY ./config/ .
