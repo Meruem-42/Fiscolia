@@ -44,11 +44,22 @@ if [ "$SECRETS_EXIST" = "no" ]; then
   echo "==> Enabling KV v2 and writing secrets..."
   vault secrets enable -path=secret kv-v2
 
+  vault kv put secret/general \
+    project_name=${PROJECT_NAME} \
+    db_name=${DB_AUTH_NAME}
+
   vault kv put secret/database \
-    PROJECT_NAME="${PROJECT_NAME}"
+    db_user=${DB_AUTH_USER} \
+    db_password=@/run/secrets/db_auth_pwd \
+    db_root_password=@/run/secrets/db_root_pwd
 
+  vault kv put secret/ports \
+    db_port=${DB_AUTH_PORT} \
+    backend_port=${BACK_AUTH_PORT}  \
+    upload_port=${BACK_UPLOAD_PORT}\
+    front_port=${FRONT_PORT}    \
+    proxy_port=${PROXY_EXPOSED_PORT}
 
-  #vault kv put secret/backend \
 
   echo "==> Secrets written."
 fi
