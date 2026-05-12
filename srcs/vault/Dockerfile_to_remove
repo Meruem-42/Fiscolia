@@ -1,0 +1,23 @@
+FROM docker.io/hashicorp/vault:1.13.3
+
+ARG VAULT_PORT
+EXPOSE $VAULT_PORT
+
+RUN apk add --no-cache openssl
+
+RUN mkdir -p /opt/vault/{tls,data}
+#RUN cd /opt/vault/tls
+RUN openssl req   -out tls.crt   -new   -keyout tls.key   \
+    -newkey rsa:4096   -nodes   -sha256   -x509   \
+    -subj "/O=HashiCorp/CN=Vault"   \
+    -addext "subjectAltName = IP:<loopbackIP>,DNS:<host>"  \
+    -days 3650
+
+
+COPY ./init.sh /vault/init.sh
+COPY ./vault.hcl /etc/vault/vault.hcl
+RUN chmod +x /vault/init.sh
+RUN chmod +x /etc/vault/vault.hcl
+
+
+CMD ["/vault/init.sh"]
