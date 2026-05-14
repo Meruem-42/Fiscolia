@@ -79,6 +79,8 @@ jobs:
         if: success()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          REPO_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
@@ -87,7 +89,7 @@ jobs:
                  \"embeds\": [{
                    \"title\": \"✅ Build Success\",
                    \"color\": 65280,
-                   \"description\": \"Le CI Fiscolia a réussi sur la branche \`${{ github.ref_name }}\`\\n\\n**Message :** ${COMMIT_MSG}\\n**Auteur :** ${{ github.actor }}\\n\\n[👉 Voir les détails](${REPO_URL})\",
+                   \"description\": \"**Branche :** \`${{ github.ref_name }}\`\\n**Message :** ${COMMIT_MSG}\\n**Auteur :** ${{ github.actor }}\\n\\n[👉 Voir les détails](${REPO_URL})\",
                    \"footer\": { \"text\": \"Fiscolia Infrastructure is UP\" }
                  }]
                }" \
