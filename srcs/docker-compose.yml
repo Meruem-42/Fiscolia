@@ -98,6 +98,7 @@ services:
     image: docker.io/hashicorp/vault:latest
     container_name: ${PROJECT_NAME}-vault
     restart: unless-stopped
+    user: "0:0"
     cap_add:
       - IPC_LOCK           # Required by Vault to lock memory
     ports:
