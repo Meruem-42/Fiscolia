@@ -95,8 +95,12 @@ services:
   
 
   vault:
-    image: docker.io/hashicorp/vault:latest
+    image: vault-image
     container_name: ${PROJECT_NAME}-vault
+    build:
+      context: ./vault
+      args:
+        VAULT_PORT: ${VAULT_PORT}
     restart: unless-stopped
     user: "0:0"
     cap_add:
@@ -107,7 +111,6 @@ services:
       - ./vault/config:/vault/config:ro,Z
       - ./vault/scripts:/vault/scripts:ro,Z
       - vault_data:/vault/data:Z # persistent encrypted storage
-    command: sh /vault/scripts/entrypoint.sh
     healthcheck:
       test: ["CMD", "sh", "-c", "vault status -format=json >/dev/null 2>&1 && vault status | grep -q 'Sealed.*false' || exit 1"]
       interval: 5s
