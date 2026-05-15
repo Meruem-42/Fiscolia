@@ -1,3 +1,11 @@
+.default-background {	
+			min-height: 100vh;
+			background: linear-gradient(to bottom, #05337c, #ebf6ff);
+			display: flex;
+			flex-direction: column;
+			color: black
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;

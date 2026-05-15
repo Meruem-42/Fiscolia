@@ -2,49 +2,22 @@
 import {Link} from 'react-router-dom'
 import './Homepage.css'
 import logo from './assets/logo.png'
+import { Header, Footer } from '../../Components_of_site.jsx'
 
 function Home() {
-	return (
-		
-	<div 
-		/*Background*/
-		style={{
-			minHeight: '100vh',
-			background: 'linear-gradient(to bottom, #05337c, #ebf6ff)',
-			display: 'flex',
-			flexDirection: 'column',
-			color: 'black'
-		}}>
-		{/**/}
-
-		{/*TOP part: Navigation bar*/}
-		<div
-			style={{
-				width: '100%',
-				height: '70px',
-				backgroundColor: 'white',
-				display: 'flex',
-				alignItems: 'right',
-				justifyContent: 'space-around'
-			}}>
-			<p>         </p>
-			<div>
-				<Link to="/backend">
-					<button>BACKEND</button>
-				</Link>
-			</div>
-			<div>
-				<Link to="/login">
-					<button>LOGIN</button>
-				</Link>
-			</div>
-			<div>
-				<Link to="/register">
-					<button>REGISTER</button>
-				</Link>
-			</div>
+	return (		
+		<div className="default-background">
+			<Header />
+			<MainBody />
+			<Footer />
 		</div>
-		{/*MAIN part*/}
+	)
+  }
+
+export default Home
+
+const MainBody = () => {
+	return (
 		<div
 			style={{
 				flex:1,
@@ -61,21 +34,5 @@ function Home() {
 			<p>Un projet, une vision</p>
 			<h1 style={{ color: '#000091', fontFamily: 'montserat'}}>Fiscolia</h1>
 		</div>
-		
-		{/*BOTTOM part: footer*/}
-		<div
-			style={{
-				width: '100%',
-				height: '70px',
-				backgroundColor: '#cbd4db',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'space-around'
-			}}>
-			<p>Contact</p>
-		</div>
-	</div>
 	)
-  }
-
-export default Home
+}
