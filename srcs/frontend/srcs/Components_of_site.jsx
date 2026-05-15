@@ -5,11 +5,11 @@ export const Header = () => {
         <div
             style={{
                 width: '100%',
-                height: '70px',
+                height: '7vh',
                 backgroundColor: 'white',
                 display: 'flex',
                 alignItems: 'right',
-                justifyContent: 'space-around'
+                justifyContent: 'flex-end'
             }}>
             <p>         </p>
             <div>
@@ -31,7 +31,7 @@ export const Footer = () => {
 		<div
 			style={{
 				width: '100%',
-				height: '70px',
+				height: '7vh',
 				backgroundColor: '#cbd4db',
 				display: 'flex',
 				alignItems: 'center',

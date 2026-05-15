@@ -1,7 +1,6 @@
 
 .animated-logo {
 	position: fixed;
-	width: 300px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -10,16 +9,20 @@
 
 @keyframes moveLogo {
 	0% {
-		width: 900px;
+		width: 40%;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		display: flex;
+		justify-content: space-around;
 	}
 
 	100% {
-		width: 200px;
-		top: 5px;
-		left: 20px;
+		width: clamp(100px, 13vw, 200px);
+		top: 1%;
+		left: 2%;
 		transform: translate(0, 0);
+		display: flex;
+		justify-content: space-around;
 	}
 }
