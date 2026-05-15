@@ -6,8 +6,10 @@ RUN apt update
 COPY tools/requirements.txt tools/requirements.txt
 RUN pip install -r tools/requirements.txt
 
-COPY ./config/ /app/
+COPY ./config/ .
 
-EXPOSE 8091
 
-CMD [ "uvicorn", "response_chatbot:app", "--host" , "0.0.0.0", "--port", "8091" ]
+ARG BACK_CHATBOT_PORT
+EXPOSE ${BACK_CHATBOT_PORT}
+
+CMD ["sh", "-c", "uvicorn response_chatbot:app --host 0.0.0.0 --port ${BACK_CHATBOT_PORT}"]

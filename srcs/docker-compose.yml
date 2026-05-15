@@ -38,12 +38,17 @@ services:
   backend-chatbot:
     container_name: ${PROJECT_NAME}-backend-chatbot
     image: backend-chatbot-image
-    build: ./backend-chatbot
+    build: 
+      context: ./backend-chatbot
+      args:
+        BACK_CHATBOT_PORT: ${BACK_CHATBOT_PORT}
     depends_on:
       ollama:
         condition: service_started
     networks:
       - fiscolia
+    env_file:
+      - ../.env
 
   backend-auth:
     container_name: ${PROJECT_NAME}-backend-auth
