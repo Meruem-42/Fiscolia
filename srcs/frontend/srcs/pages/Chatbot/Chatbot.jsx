@@ -1,10 +1,17 @@
-import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import MessageBubble from './components/MessageBubble';
+import styles from './Chat.module.css';
 
-function Chatbot() {
-  const [message, setMessage] = useState("");
-  const [formData, setFormData] = useState({ question: "" });
+export default function Chat() {
+  const [messages, setMessages] = useState([
+    { id: 1, text: 'Hello! How can I help you?', sender: 'bot' },
+  ]);
+
+  const [input, setInput] = useState('');
+  const [botMessage, setBotMessage] = useState('');
+  const [currentBotMessageId, setCurrentBotMessageId] = useState(null);
   const socketRef = useRef(null);
+  let messageCounter = useRef(2);
 
   useEffect(() => {
     const socket = new WebSocket("/ws");
@@ -15,52 +22,98 @@ function Chatbot() {
     };
 
     socket.onmessage = (event) => {
-      console.log("recieved: ", event.data);
-      setMessage(prev => prev + event.data);
+      console.log("📩 Chunk received:", event.data);
+      setBotMessage((prev) => prev + event.data);
     };
 
-    socket.onerror = (err) => console.error("WebSocket error:", err);
-    socket.onclose = () => console.log("WebSocket closed");
+    socket.onerror = (err) => {
+      console.error("❌ WebSocket error:", err);
+    };
+    
+    socket.onclose = () => {
+      console.log("⚠️  WebSocket closed");
+    };
 
-    return () => socket.close(); // cleanup on unmount
+    return () => socket.close();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleSendMessage = () => {
+    if (input.trim() === '') return;
+
+    // Add user message
+    const newUserMessage = {
+      id: messageCounter.current,
+      text: input,
+      sender: 'user',
+    };
+
+    setMessages((prev) => [...prev, newUserMessage]);
+    setInput('');
+    setBotMessage('');
+    messageCounter.current += 1;
+
+    // Add empty bot message placeholder
+    const botMessageId = messageCounter.current;
+    setCurrentBotMessageId(botMessageId);
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: botMessageId,
+        text: '',
+        sender: 'bot',
+      },
+    ]);
+    messageCounter.current += 1;
+
+    // Send to backend
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(input);
+    } else {
+      console.error("WebSocket not connected");
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      socketRef.current.send(formData.question);
-    } else {
-      setMessage("WebSocket not connected");
+  // Update bot message as it streams in
+  useEffect(() => {
+    if (botMessage !== '' && currentBotMessageId !== null) {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === currentBotMessageId
+            ? { ...msg, text: botMessage }
+            : msg
+        )
+      );
+    }
+  }, [botMessage, currentBotMessageId]);
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
     }
   };
 
   return (
-    <div style={{ textAlign: "center", alignContent: "center" }}>
-      <h1 style={{ color: "#000091" }}>CHATBOT</h1>
-      <form onSubmit={handleSubmit}>
-        <p>Chatbot</p>
+    <div className={styles.chatContainer}>
+      <div className={styles.header}>
+        <h2>Fiscopain</h2>
+      </div>
+
+      <div className={styles.messagesArea}>
+        {messages.map((msg) => (
+          <MessageBubble key={msg.id} message={msg} />
+        ))}
+      </div>
+
+      <div className={styles.inputArea}>
         <input
           type="text"
-          name="question"
-          value={formData.question}
-          onChange={handleChange}
-          placeholder="Question our chatbot"
+          placeholder="Type a message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
-        <p style={{ color: "#474747" }}>{message}</p>
-        <button type="submit">Ask me</button>
-      </form>
-      <div>
-        <Link to="/">
-          <button>Return to the home Page</button>
-        </Link>
+        <button onClick={handleSendMessage}>Send</button>
       </div>
     </div>
   );
 }
-
-export default Chatbot;
