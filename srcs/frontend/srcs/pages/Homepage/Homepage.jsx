@@ -5,10 +5,12 @@ import logo from './assets/logo.png'
 import { Header, Footer } from '../../Components_of_site.jsx'
 
 function Home() {
-	return (		
-		<div className="default-background">
+	return (	
+		<div className="page">
 			<Header />
-			<MainBody />
+			<div className="default-background">
+				<MainBody />
+			</div>
 			<Footer />
 		</div>
 	)
@@ -24,15 +26,18 @@ const MainBody = () => {
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
-				alignItems: 'center'
+				alignItems: 'center',
+				paddingTop: '80px',
+				boxSizing: 'border-box',
+				overflowY: 'auto'
 			}}>
-			<img
+			{/*<img
 				src={logo}
 				alt="logo"
 				className="animated-logo"
-			/>
-			<p>Un projet, une vision</p>
-			<h1 style={{ color: '#000091', fontFamily: 'montserat'}}>Fiscolia</h1>
+			/>*/}
+			<p style={{ fontSize: 'clamp(1rem, 2vw, 2rem)' }}>Un projet, une vision</p>
+			<h1 style={{ color: '#000091', fontFamily: 'montserat', fontSize: 'clamp(1rem, 8vw, 4rem)' }}>Fiscolia</h1>
 		</div>
 	)
 }

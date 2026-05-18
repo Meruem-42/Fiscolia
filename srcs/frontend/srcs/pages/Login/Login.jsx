@@ -1,9 +1,26 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
+import { Header, Footer } from '../../Components_of_site.jsx'
+import '../../index.css'
 
 function Login() {
-  const navigate = useNavigate();
+
+
+  return (
+    <div className="page">
+      <Header />
+        <div className="default-background">
+          <MainBody />
+        </div>
+        <Footer />
+    </div>
+  );
+}
+
+export default Login
+
+const MainBody = () => {
+    const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -42,7 +59,6 @@ function Login() {
       setMessage("ERROR: " + error.message);
     }
   };
-
   return (
     <div style={{ textAlign: "center", alignContent: "center" }}>
       <h1 style={{ color:"#000091"}}>LOGIN</h1>
@@ -51,7 +67,7 @@ function Login() {
         <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         <p>Mot de passe</p>
         <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
-		<p>{message}</p>
+		    <p>{message}</p>
         <button type="submit">Connect</button>
       </form>
       <div>
@@ -60,7 +76,5 @@ function Login() {
         </Link>
       </div>
     </div>
-  );
+  )
 }
-
-export default Login

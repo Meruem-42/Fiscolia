@@ -1,16 +1,9 @@
 import {Link} from 'react-router-dom'
+import './index.css'
 
 export const Header = () => {
     return (
-        <div
-            style={{
-                width: '100%',
-                height: '7vh',
-                backgroundColor: 'white',
-                display: 'flex',
-                alignItems: 'right',
-                justifyContent: 'flex-end'
-            }}>
+        <div className="header">
             <p>         </p>
             <div>
                 <Link to="/login">
@@ -25,13 +18,13 @@ export const Header = () => {
         </div>
     )
 };
-
 export const Footer = () => {
     return (
 		<div
 			style={{
 				width: '100%',
-				height: '7vh',
+				height: 'clamp(50px, 6vh, 90px)',
+                flexShrink: '0',
 				backgroundColor: '#cbd4db',
 				display: 'flex',
 				alignItems: 'center',

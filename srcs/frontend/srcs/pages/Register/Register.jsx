@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import style from './Register.module.css';
+import { Header, Footer } from '../../Components_of_site.jsx'
+import '../../index.css'
 
 
 
@@ -14,6 +16,20 @@ const getIndicatorStyle = (field, isRuleMet) => {
 };
 
 function Register() {
+    return (	
+      <div className="page">
+        <Header />
+        <div className="default-background">
+          <MainBody />
+        </div>
+        <Footer />
+      </div>
+    )
+}
+
+export default Register
+
+const MainBody = () => {
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -110,58 +126,55 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
 
   return (
 
-
-    <div className={style.pages}>
+    <div className="register-page">
       <form className={style.form} onSubmit={handleSubmit}>
-      <h1 className={style.page_title}>REGISTER</h1>
-      <div className={style.field_container}>
-        <p className={style.field_name} >Email</p>
-        <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-      </div>
-      <div className={style.field_container}>
-        <p className={style.field_name}>Retaper votre email</p>
-        <div className={style.rules_verification}>
-          <span style={getIndicatorStyle(formData.email, confirmRulesEmail.match_email)}>Same email</span>
+       {/* <h1 className={style.page_title}>REGISTER</h1>
+        <div className={style.field_container}>
+          <p className={style.field_name} >Email</p>
+          <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         </div>
-          <input type="email" name="confirm_email" value={formData.confirm_email} onChange={handleChange} placeholder="Confirm Email" />
-      </div>
-      <div className={style.field_container}>
-        <p className={style.field_name}>Mot de passe</p>
-        <div className={style.rules_verification}>
-          <span style={getIndicatorStyle(formData.password, pwdRules.length)}>8+ chars</span>
-          <span style={getIndicatorStyle(formData.password, pwdRules.upper)}>Majuscule</span>
-          <span style={getIndicatorStyle(formData.password, pwdRules.lower)}>Minuscule</span>
-          <span style={getIndicatorStyle(formData.password, pwdRules.digit)}>Chiffre</span>
+        <div className={style.field_container}>
+          <p className={style.field_name}>Retaper votre email</p>
+          <div className={style.rules_verification}>
+            <span style={getIndicatorStyle(formData.email, confirmRulesEmail.match_email)}>Same email</span>
+          </div>
+            <input type="email" name="confirm_email" value={formData.confirm_email} onChange={handleChange} placeholder="Confirm Email" />
         </div>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
-      </div>
-      <div className={style.field_container}>
-        <p className={style.field_name}>Retaper votre mot de passe</p>
-        <div className={style.rules_verification}>
-          <span style={getIndicatorStyle(formData.password, confirmRulesPwd.match_pwd)}>Same password</span>
+        <div className={style.field_container}>
+          <p className={style.field_name}>Mot de passe</p>
+          <div className={style.rules_verification}>
+            <span style={getIndicatorStyle(formData.password, pwdRules.length)}>8+ chars</span>
+            <span style={getIndicatorStyle(formData.password, pwdRules.upper)}>Majuscule</span>
+            <span style={getIndicatorStyle(formData.password, pwdRules.lower)}>Minuscule</span>
+            <span style={getIndicatorStyle(formData.password, pwdRules.digit)}>Chiffre</span>
+          </div>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
         </div>
-          <input type="password" name="confirm_password" value={formData.confirm_password} onChange={handleChange} placeholder="Confirm Password" />
-      </div>
-      <div className={style.field_container}>
-        <p className={style.field_name}>Prenom</p>
-          <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Prenom" />
-      </div>
-      <div className={style.field_container}>
-        <p className={style.field_name}>Nom</p>
-          <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" />
-      </div>
-      <div>
-		    <p>{message}</p>
-        <button type="submit">Create Account</button>
-      </div>
-      <div>
-        <Link to="/">
-          <button>Return to Home page</button>
-        </Link>
-      </div>
+        <div className={style.field_container}>
+          <p className={style.field_name}>Retaper votre mot de passe</p>
+          <div className={style.rules_verification}>
+            <span style={getIndicatorStyle(formData.password, confirmRulesPwd.match_pwd)}>Same password</span>
+          </div>
+            <input type="password" name="confirm_password" value={formData.confirm_password} onChange={handleChange} placeholder="Confirm Password" />
+        </div>
+        <div className={style.field_container}>
+          <p className={style.field_name}>Prenom</p>
+            <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Prenom" />
+        </div>
+        <div className={style.field_container}>
+          <p className={style.field_name}>Nom</p>
+            <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" />
+        </div>
+        <div>
+		      <p>{message}</p>
+          <button type="submit">Create Account</button>
+        </div>
+        <div>
+          <Link to="/">
+            <button>Return to Home page</button>
+          </Link>
+        </div>*/}
       </form>
     </div>
   );
 }
-
-export default Register
