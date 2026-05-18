@@ -23,13 +23,51 @@
 
 .header {
   width: 100%;
-  height: clamp(60px, 8vh, 100px);
+  height: clamp(80px, 9vh, 150px);
   background: white;
   display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  flex-shrink: 0
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding-left: clamp( 8px, 1vw, 20px );
+  padding-right: clamp( 8px, 1vw, 20px );
 }
+
+.animated-logo {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: moveLogo 1s forwards ease-in-out;
+}
+
+@keyframes moveLogo {
+	0% {
+		width: 40%;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		justify-content: space-around;
+	}
+
+	100% {
+		width: clamp(100px, 13vw, 200px);
+		top: 1%;
+		left: 2%;
+		transform: translate(0, 0);
+		display: flex;
+		justify-content: space-around;
+	}
+}
+  .logo {
+    height: 90%;
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
 
 :root {
   --text: #6b6375;

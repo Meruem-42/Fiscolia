@@ -1,9 +1,16 @@
 import {Link} from 'react-router-dom'
 import './index.css'
+import logo from './assets/logo.png'
 
-export const Header = () => {
+
+export const Header = ({ animateLogo }) => {
     return (
-        <div className="header">
+        <header className="header">
+            <img
+				src={logo}
+				alt="logo"
+				className={ animateLogo ? "animated-logo" : "logo" }
+			/>
             <p>         </p>
             <div>
                 <Link to="/login">
@@ -15,12 +22,12 @@ export const Header = () => {
                     <button>REGISTER</button>
                 </Link>
             </div>
-        </div>
+        </header>
     )
 };
 export const Footer = () => {
     return (
-		<div
+		<footer
 			style={{
 				width: '100%',
 				height: 'clamp(50px, 6vh, 90px)',
@@ -31,6 +38,6 @@ export const Footer = () => {
 				justifyContent: 'space-around'
 			}}>
 			<p>Contact</p>
-		</div>
+		</footer>
     )
 }
