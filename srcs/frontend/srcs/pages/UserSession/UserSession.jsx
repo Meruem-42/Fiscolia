@@ -84,6 +84,10 @@ export default function UserSession() {
     navigate("/upload");
   };
 
+  const handleEditProfile = () => {
+    navigate("/edit-profile");
+  };
+
   if (loading) {
     return <p style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</p>;
   }
@@ -99,6 +103,22 @@ export default function UserSession() {
       <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>You are authenticated ✓</p>
 
       <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", marginBottom: "2rem" }}>
+        <button
+          type="button"
+          onClick={handleEditProfile}
+          style={{
+            padding: "0.75rem 1.5rem",
+            fontSize: "1rem",
+            backgroundColor: "#198754",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          Edit profile
+        </button>
+
         <button
           type="button"
           onClick={handleUpload}
