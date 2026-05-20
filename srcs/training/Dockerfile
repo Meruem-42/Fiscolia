@@ -10,6 +10,11 @@ RUN pip install --no-cache-dir \
     scikit-learn \
     matplotlib \
     seaborn \
-    joblib
+    joblib \
+    sqlalchemy \
+    psycopg2-binary
+
+COPY training.py .
+COPY get_secret.py .
 
 CMD ["python", "training.py"]

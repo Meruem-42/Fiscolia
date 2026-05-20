@@ -15,23 +15,34 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 import warnings
+import os
+from sqlalchemy import create_engine
+from get_secret import get_secret
 warnings.filterwarnings("ignore")
 
 # ─────────────────────────────────────────────
 # 1. LOAD DATASET
 # ─────────────────────────────────────────────
 
-CSV_PATH = "./dataset.csv"
+db_user = os.getenv("DB_AUTH_USER")
+db_port = os.getenv("DB_AUTH_PORT")
+db_name = os.getenv("DB_AUTH_NAME")
+db_password = get_secret(os.getenv("DB_AUTH_SECRETS"))
+
+URL_DB = f"postgresql://{db_user}:{db_password}@db-auth:{db_port}/{db_name}"
 N_CLUSTERS = 3
 AUTOENCODER_EPOCHS = 100
 BATCH_SIZE = 32
 LATENT_DIM = 8
 
+engine = create_engine(URL_DB)
 print("=" * 60)
 print("  CLUSTERING (3 profiles)")
 print("=" * 60)
 
-df = pd.read_csv(CSV_PATH)
+df = pd.read_sql_query('SELECT etat_civil, quotient_familial, situation_specifique, \
+                        rni, csp FROM userdata', engine)
+
 print(f"\n✅ Loaded Dataset : {df.shape[0]} rows, {df.shape[1]} columns")
 print(f"Columns : {list(df.columns)}\n")
 print(df.head())
@@ -57,7 +68,12 @@ for col in df_clean.columns:
         encoders[col] = le
         print(f"  '{col}' : {len(le.classes_)} categories → {list(le.classes_[:5])}{'...' if len(le.classes_) > 5 else ''}")
     else:
-        print(f"  '{col}' : numeric (min={df_clean[col].min():.1f}, max={df_clean[col].max():.1f})")
+        # Convert to numeric just for display
+        try:
+            col_numeric = pd.to_numeric(df_clean[col], errors='coerce')
+            print(f"  '{col}' : numeric (min={col_numeric.min():.1f}, max={col_numeric.max():.1f})")
+        except:
+            print(f"  '{col}' : could not determine type")
 
 # Normalisation
 scaler = StandardScaler()

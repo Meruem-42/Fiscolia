@@ -27,21 +27,13 @@ re: clean all
 
 # TRAINING
 
-TRAINING_DIR = srcs/training
-TRAINING_IMG = fiscolia-training
-
 training: env_check
 	@echo "$(CYAN)── Building training image ──$(RESET)"
-	docker build -t $(TRAINING_IMG) $(TRAINING_DIR)
 	@mkdir -p $(PWD)/models
 	@echo "$(CYAN)── Lancement de l'entraînement ──$(RESET)"
-	docker run --rm \
-		-v $(PWD)/$(TRAINING_DIR)/dataset.csv:/app/dataset.csv:ro \
-		-v $(PWD)/models:/app/models \
-		-v $(PWD)/$(TRAINING_DIR)/training.py:/app/training.py:ro \
-		$(TRAINING_IMG)
-	@echo "$(GREEN)✅ Training done - models avaible in ./models/$(RESET)"
-
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm training
+	@echo "$(CYAN)── Training container started in detached mode ──$(RESET)"
+	@echo "$(CYAN)Access with: docker compose -p $(PROJECT_NAME) -f srcs/docker-compose.yml exec training bash$(RESET)"
 # ADR
 
 adr:

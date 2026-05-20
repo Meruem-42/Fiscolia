@@ -104,6 +104,25 @@ services:
     profiles:
       - profile
 
+  training:
+    container_name: ${PROJECT_NAME}-training
+    image: fiscolia-training
+    build:
+      context: ./training
+    depends_on:
+      db-auth:
+        condition: service_started
+    volumes:
+      - ../models:/app/models:Z
+    networks:
+      - fiscolia
+    env_file:
+      - ../.env
+    profiles:
+      - training
+    secrets:
+      - db_auth_pwd
+
 networks:
   fiscolia:
     name: fiscolia-network
