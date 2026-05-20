@@ -7,11 +7,13 @@ import github_logo from './assets/github_logo.png'
 export const Header = ({ animatedLogo }) => {
     return (
         <header className="header">
-            <img
-				src={logo}
-				alt="logo"
-				className={ animatedLogo ? "header-logo-animated" : "header-logo"}
-			/>
+            <Link to="/" className="link-logo">
+                <img
+			    	src={logo}
+			    	alt="logo"
+			    	className={ animatedLogo ? "header-logo-animated" : "header-logo"}
+			    />
+            </Link>
             <p>         </p>
             <div>
                 <Link to="/login">

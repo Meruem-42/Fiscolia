@@ -40,6 +40,15 @@
 
 }
 
+.link-logo {
+
+  display: flex;
+  height: 100%;
+  align-items: center;
+  text-decoration: none;
+  
+}
+
 .header-logo {
 
   height: 90%;
