@@ -8,7 +8,7 @@ function Login() {
 
   return (
     <div className="page">
-      <Header animateLogo={false} />
+      <Header animatedLogo={false} />
         <div className="default-background">
           <MainBody />
         </div>

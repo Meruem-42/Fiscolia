@@ -61,13 +61,50 @@
 		justify-content: space-around;
 	}
 }
-  .logo {
-    height: 90%;
-    width: auto;
-    object-fit: contain;
-    flex-shrink: 0;
-    flex-wrap: wrap;
+
+.header-logo {
+
+  height: 90%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.header-logo-animated {
+
+  height: 90%;
+  width: auto;
+  object-fit: contain;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transform: translateX( -120% );
+
+  animation: headerLogo 1s ease forwards;
+  animation-delay: 1s;
+
+}
+
+@keyframes headerLogo {
+
+  from {
+    opacity: 0;
+    transform: translateX( -120% );
   }
+  to {
+    opacity: 1;
+    transform: translateX( 0 );
+  }
+
+}
 
 :root {
   --text: #6b6375;

@@ -18,7 +18,7 @@ const getIndicatorStyle = (field, isRuleMet) => {
 function Register() {
     return (	
       <div className="page">
-        <Header animateLogo={false} />
+        <Header animatedLogo={false} />
         <div className="default-background">
           <MainBody />
         </div>

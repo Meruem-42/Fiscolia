@@ -3,13 +3,13 @@ import './index.css'
 import logo from './assets/logo.png'
 
 
-export const Header = ({ animateLogo }) => {
+export const Header = ({ animatedLogo }) => {
     return (
         <header className="header">
             <img
 				src={logo}
 				alt="logo"
-				className={ animateLogo ? "animated-logo" : "logo" }
+				className={ animatedLogo ? "header-logo-animated" : "header-logo"}
 			/>
             <p>         </p>
             <div>

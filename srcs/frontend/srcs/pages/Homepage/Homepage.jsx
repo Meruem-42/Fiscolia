@@ -2,14 +2,21 @@
 import {Link} from 'react-router-dom'
 import './Homepage.css'
 import { Header, Footer } from '../../Components_of_site.jsx'
+import logo from '../../assets/logo.png'
 
 function Home() {
 	return (	
 		<div className="page">
-			<Header animateLogo={true} />
+			<div className="intro-logo-homepage">
+				<img src={logo} alt="logo" className="intro-logo-homepage-animation" />
+			</div>
+
+			<Header animatedLogo={true} />
+
 			<div className="default-background">
 				<MainBody />
 			</div>
+
 			<Footer />
 		</div>
 	)
