@@ -31,7 +31,7 @@ export const Header = ({ animatedLogo }) => {
             </button>
 
             { menuOpen && (
-                <nav className="burger-menu" >
+                <nav className={ `burger-menu ${menuOpen ? "open" : "" }`} >
                     <a href="/">Home</a>
                     <a href="/login">Login</a>
                     <a href="/register">Register</a>

@@ -60,6 +60,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 4;
 
 }
 
@@ -74,6 +75,7 @@
   align-items: center;
 
   opacity: 0;
+  z-index: 4;
   transform: translateX( -120% );
 
   animation: headerLogo 1s ease forwards;
@@ -108,6 +110,7 @@
   justify-content: center;
   position: relative;
   gap: 6px;
+  z-index: 2;
 
   cursor: pointer;
   padding: 0;
@@ -127,33 +130,45 @@
 
 .burger-menu {
 
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  
-  position: absolute;
-  top: 100%;
-  right: 10px;
-  min-width: 160px;
-  padding: 15px;
-  gap: 10px;
-  z-index: 3;
+  position: fixed;
 
+  top:   clamp( -180px, -20vw, -80px );
+  right: clamp( -180px, -20vw, -80px );
+
+  width: clamp(  30px, 55vw, 400px );
+  height: clamp( 30px, 55vw, 400px );
+  padding-top:  clamp( 60px, 12vw, 120px );
+  padding-left: clamp( 50px, 30vw, 170px );
+
+  border-radius: 50%;
+
+  background: #f8875d;/*#05337c;*/
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp( 10px, 2vw, 20px );
+
+  z-index: 1;
 
 }
 
+.burger-menu.open {
+  transform: scale(1);
+}
+
+
 .burger-menu a {
   
-  color: #ff7f50;
+  color: black;
   text-decoration: none;
+  font-size: clamp( 12px, 4vw, 21px );
 
 }
 
 .burger-menu a:hover {
 
-  color: #ee5821;
+  color: #c04416;
   transform: scale( 1.1 );
 
 }
@@ -172,6 +187,8 @@
   box-sizing: border-box;
   padding-left: clamp( 8px, 1vw, 20px );
   padding-right: clamp( 8px, 1vw, 20px );
+
+  z-index: 5;
 
 }
 
