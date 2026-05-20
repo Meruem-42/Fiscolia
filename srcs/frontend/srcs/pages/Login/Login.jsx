@@ -14,7 +14,7 @@ function Login() {
         </div>
         <Footer />
     </div>
-  );
+  )
 }
 
 export default Login
