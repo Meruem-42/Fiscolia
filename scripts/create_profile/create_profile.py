@@ -12,11 +12,11 @@ with open("dataset.csv") as f:
 col_names = data.columns
 for index, row in data.iterrows():
         data = {
-            "etat_civil": str(row[col_names[0]]),
-            "quotient_familial": str(row[col_names[1]]),
-            "situation_specifique": str(row[col_names[2]]),
-            "rni": str(row[col_names[3]]),
-            "csp": str(row[col_names[4]]),
+            "etat_civil": str(row[col_names[1]]),
+            "quotient_familial": str(row[col_names[2]]),
+            "situation_specifique": str(row[col_names[3]]),
+            "rni": str(row[col_names[4]]),
+            "csp": str(row[col_names[5]]),
         }
         response = requests.post(url, json=data, headers={'Content-Type': 'application/json'})
         print(f"test{index} registering - Status: {response.status_code} - {response.text}")

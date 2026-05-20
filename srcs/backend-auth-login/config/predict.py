@@ -38,20 +38,24 @@ class Autoencoder(nn.Module):
 # Chargement des artefacts (une seule fois au démarrage)
 # ─────────────────────────────────────────────
 
-INPUT_DIM  = 6   # nombre de features (etat_civil, quotient_familial, etc.)
+INPUT_DIM  = 5   # nombre de features (etat_civil, quotient_familial, etc.)
 LATENT_DIM = 8   # même valeur que dans training.py
 
 # Prioritize container mount (/models) and keep a local fallback for dev runs.
 MODEL_DIR = Path("/models") if Path("/models").exists() else Path(__file__).resolve().parents[3] / "models"
 
-scaler   = joblib.load(MODEL_DIR / "scaler.pkl")
-encoders = joblib.load(MODEL_DIR / "encoders.pkl")
-kmeans   = joblib.load(MODEL_DIR / "kmeans.pkl")
+def load_models():
+    try :
+        scaler   = joblib.load(MODEL_DIR / "scaler.pkl")
+        encoders = joblib.load(MODEL_DIR / "encoders.pkl")
+        kmeans   = joblib.load(MODEL_DIR / "kmeans.pkl")
+    except:
+        return None
 
-model = Autoencoder(INPUT_DIM, LATENT_DIM)
-model.load_state_dict(torch.load(MODEL_DIR / "autoencoder.pt", weights_only=True))
-model.eval()  # désactive le dropout/batchnorm en mode training
-
+    model = Autoencoder(INPUT_DIM, LATENT_DIM)
+    model.load_state_dict(torch.load(MODEL_DIR / "autoencoder.pt", weights_only=True))
+    model.eval()  # désactive le dropout/batchnorm en mode training
+    return model
 
 # ─────────────────────────────────────────────
 # Fonction principale : données user → profil
@@ -68,6 +72,10 @@ def predict_profile(user_data: dict) -> int:
     }
     Retourne : 1, 2, ou 3
     """
+    # 1. Load le modele
+    model = load_models()
+    if model is None:
+        return None
 
     # 1. Encodage des champs catégoriels (si texte)
     encoded = {}
