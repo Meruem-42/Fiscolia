@@ -1,12 +1,17 @@
 import {Link} from 'react-router-dom'
+import { useState } from 'react';
 import './index.css'
 import logo from './assets/logo.png'
 import github_logo from './assets/github_logo.png'
 
 
 export const Header = ({ animatedLogo }) => {
+
+    const [menuOpen, setMenuOpen] = useState( false )
+
     return (
         <header className="header">
+            
             <Link to="/" className="link-logo">
                 <img
 			    	src={logo}
@@ -14,17 +19,25 @@ export const Header = ({ animatedLogo }) => {
 			    	className={ animatedLogo ? "header-logo-animated" : "header-logo"}
 			    />
             </Link>
-            <p>         </p>
-            <div>
-                <Link to="/login">
-                    <button>LOGIN</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="/register">
-                    <button>REGISTER</button>
-                </Link>
-            </div>
+
+            <button 
+                className="burger-menu-button"
+                onClick={() => setMenuOpen( !menuOpen )}
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            { menuOpen && (
+                <nav className="burger-menu" >
+                    <a href="/">Home</a>
+                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
+                </nav>
+            )}
+
         </header>
     )
 }

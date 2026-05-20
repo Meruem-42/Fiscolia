@@ -27,6 +27,7 @@
 
 .header {
 
+  position: relative;
   width: 100%;
   height: clamp(80px, 9vh, 150px);
   background: white;
@@ -46,7 +47,7 @@
   height: 100%;
   align-items: center;
   text-decoration: none;
-  
+
 }
 
 .header-logo {
@@ -93,6 +94,70 @@
 
 }
 
+.burger-menu-button {
+
+  width: clamp( 15px, 4vw, 30px );
+  height: clamp( 20px, 4vw, 30px );
+
+  background: transparent;
+  color: black;
+  border: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  gap: 6px;
+
+  cursor: pointer;
+  padding: 0;
+
+}
+
+.burger-menu-button span {
+
+  width: 100%;
+  height: clamp( 5px, 5vw, 5px );
+
+  background-color: #05337c;
+  border-radius: 10px;
+  display: block;
+
+}
+
+.burger-menu {
+
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  min-width: 160px;
+  padding: 15px;
+  gap: 10px;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+.burger-menu a {
+  
+  color: #ff7f50;
+  text-decoration: none;
+
+}
+
+.burger-menu a:hover {
+
+  color: #ee5821;
+  transform: scale( 1.1 );
+
+}
+
 .footer {
 
   width: 100%;
@@ -123,10 +188,26 @@
 
 }
 
+.github-logo:hover {
+
+  transform: scale( 1.1 );
+
+}
+
 .terms-and-policies {
 
   color: #74777a;
   font-size: clamp( 10px, 1.5vw, 24px );
+  text-decoration: none;
+
+}
+
+.terms-and-policies:hover {
+
+  color: #000091;
+  transform: scale( 1.1 );
+  text-decoration: none;
+
 }
 
 :root {
