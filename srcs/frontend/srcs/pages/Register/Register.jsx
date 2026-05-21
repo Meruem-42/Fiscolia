@@ -7,15 +7,18 @@ import '../../index.css'
 
 
 const getIndicatorStyle = (field, isRuleMet) => {
+
   return {
-    color: field.length === 0 ? "#505050" : (isRuleMet? "#0ac900" : "#E1000F"),
-    fontSize: "10px",
-    marginBottom: "1px",
-    fontWeight: "bold"
+    color: field.length === 0 ? "#f8875d" : (isRuleMet? "#0ac900" : "#E1000F"),
+    fontSize: "clamp( 0.3rem, 1vw, 0.6rem )",
+    marginBottom: "clamp( 0.1rem, 1vw, 0.5rem )",
+    fontWeight: "bold",
   };
+
 };
 
 function Register() {
+
     return (	
       <div className="page">
         <Header animatedLogo={false} />
@@ -25,6 +28,7 @@ function Register() {
         <Footer />
       </div>
     )
+
 }
 
 export default Register
@@ -85,7 +89,7 @@ const MainBody = () => {
     if (!isFieldValid) {
       // Si une règle échoue, on définit le message et on S'ARRÊTE là (return)
       setMessage(`Erreur dans le champ : ${fieldName}`);
-      return; 
+      return;
     }
   }
 
@@ -126,23 +130,23 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
 
   return (
 
-    <div className="register-page">
-      <form className={style.form} onSubmit={handleSubmit}>
-        <h1 className={style.page_title}>REGISTER</h1>
-        <div className={style.field_container}>
-          <p className={style.field_name} >Email</p>
+    <div className="main-body-style">
+      <form className={style.register_form} onSubmit={handleSubmit}>
+        <h1 className={style.register_page_title}>REGISTER</h1>
+        <div className={style.register_field_container}>
+          <p className={style.register_field_name} >Email</p>
           <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         </div>
-        <div className={style.field_container}>
-          <p className={style.field_name}>Retaper votre email</p>
-          <div className={style.rules_verification}>
+        <div className={style.register_field_container}>
+          <p className={style.register_field_name}>Retaper votre email</p>
+          <div className={style.register_rules_verification}>
             <span style={getIndicatorStyle(formData.email, confirmRulesEmail.match_email)}>Same email</span>
           </div>
             <input type="email" name="confirm_email" value={formData.confirm_email} onChange={handleChange} placeholder="Confirm Email" />
         </div>
-        <div className={style.field_container}>
-          <p className={style.field_name}>Mot de passe</p>
-          <div className={style.rules_verification}>
+        <div className={style.register_field_container}>
+          <p className={style.register_field_name}>Mot de passe</p>
+          <div className={style.register_rules_verification}>
             <span style={getIndicatorStyle(formData.password, pwdRules.length)}>8+ chars</span>
             <span style={getIndicatorStyle(formData.password, pwdRules.upper)}>Majuscule</span>
             <span style={getIndicatorStyle(formData.password, pwdRules.lower)}>Minuscule</span>
@@ -150,23 +154,23 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
           </div>
           <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
         </div>
-        <div className={style.field_container}>
-          <p className={style.field_name}>Retaper votre mot de passe</p>
-          <div className={style.rules_verification}>
+        <div className={style.register_field_container}>
+          <p className={style.register_field_name}>Retaper votre mot de passe</p>
+          <div className={style.register_rules_verification}>
             <span style={getIndicatorStyle(formData.password, confirmRulesPwd.match_pwd)}>Same password</span>
           </div>
             <input type="password" name="confirm_password" value={formData.confirm_password} onChange={handleChange} placeholder="Confirm Password" />
         </div>
-        <div className={style.field_container}>
-          <p className={style.field_name}>Prenom</p>
+        <div className={style.register_field_container}>
+          <p className={style.register_field_name}>Prenom</p>
             <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Prenom" />
         </div>
-        <div className={style.field_container}>
-          <p className={style.field_name}>Nom</p>
+        <div className={style.register_field_container}>
+          <p className={style.register_field_name}>Nom</p>
             <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" />
         </div>
         <div>
-		      <p>{message}</p>
+		      <div className={style.register_error_message}>{message}</div>
           <button type="submit">Create Account</button>
         </div>
         <div>

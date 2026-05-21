@@ -1,18 +1,4 @@
-.register-page {
-	
-	width: 100%;
-	height: 100%;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	padding: 2%;
-	box-sizing: border-box;
-
-}
-
-.form {
+.register_form {
 	
 	width: auto;
 	height: clamp( 400px, 78vw, 890px );
@@ -28,19 +14,20 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	text-align: center;
 }
 
-.page_title {
+.register_page_title {
 
 	color:#FFFFFF;
 	font-family: 'Times New Roman', Times, serif;
 	font-weight: 200px;
 	letter-spacing: 1px;
 
-	font-size: clamp( 1rem, 4vw, 3rem );
+	font-size: clamp( 1rem, 3.5vw, 3rem );
 }
 
-.field_container {
+.register_field_container {
 
 	color: rgb(255, 255, 255);
 
@@ -51,24 +38,14 @@
 	width: 70%;
 }
 
-.field_name {
+.register_field_name {
 
+	color: rgb(204, 214, 236);
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: clamp( 0.8rem, 1.5vw, 1.2rem );
 }
 
-input {
-
-	border-radius: 15px;
-	background-color: #FFFFFF;
-	color: #000091;
-
-	padding: clamp( 6px, 1vw, 12px );
-	font-size: clamp( 0.1rem, 1.3vw, 1rem );
-	width: 100%;
-
-}
-.rules_verification {
+.register_rules_verification {
 
 	display: flex;
 	flex-wrap: wrap;
@@ -76,20 +53,14 @@ input {
 	align-items: center;
 
 	gap: clamp( 5px, 1vw, 12px );
-	font-size: clamp( 0.6rem, 1vw, 0.9rem );
 	line-height: 1;
 
 }
 
-button {
+.register_error_message {
 
-	background-color: #FFFFFF;
-	color: #000091;
-
-	margin-top: 30px;
-	border-radius: 15px;
-	font-size: clamp( 0.5rem, 1.5vw, 1.2rem );
-	padding: clamp( 8px, 1vw, 14px );
-	width: 100%;
+	color: #E1000F;
+    font-weight: bold;
+	font-size: clamp( 0.3rem, 1vw, 0.6rem );
 
 }

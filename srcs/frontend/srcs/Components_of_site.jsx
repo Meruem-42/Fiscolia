@@ -10,7 +10,7 @@ export const Header = ({ animatedLogo }) => {
     const [menuOpen, setMenuOpen] = useState( false )
 
     return (
-        <header className="header">
+        <header className="header-style">
             
             <Link to="/" className="link-logo">
                 <img
@@ -40,12 +40,13 @@ export const Header = ({ animatedLogo }) => {
 
         </header>
     )
+
 }
 
 export const Footer = () => {
     
     return (
-		<footer className="footer" >
+		<footer className="footer-style" >
             <Link to="/privacy_policy" className="terms-and-policies">
                 Privacy Policy
             </Link>

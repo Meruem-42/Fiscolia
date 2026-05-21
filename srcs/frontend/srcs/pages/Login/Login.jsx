@@ -20,7 +20,8 @@ function Login() {
 export default Login
 
 const MainBody = () => {
-    const navigate = useNavigate();
+
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -59,9 +60,10 @@ const MainBody = () => {
       setMessage("ERROR: " + error.message);
     }
   };
+
   return (
-    <div style={{ textAlign: "center", alignContent: "center" }}>
-      <h1 style={{ color:"#000091"}}>LOGIN</h1>
+    <div className="main-body-style">
+      <h1>LOGIN</h1>
       <form onSubmit={handleSubmit}>
         <p>Email</p>
         <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
@@ -77,4 +79,5 @@ const MainBody = () => {
       </div>
     </div>
   )
+  
 }
