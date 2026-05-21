@@ -90,7 +90,7 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db), se
         }
 
     user_data = {
-        "index": user.data.id,
+        # "index": user.data.id,
         "etat_civil": user.data.etat_civil,
         "quotient_familial": user.data.quotient_familial,
         "situation_specifique": user.data.situation_specifique,

@@ -44,18 +44,23 @@ LATENT_DIM = 8   # même valeur que dans training.py
 # Prioritize container mount (/models) and keep a local fallback for dev runs.
 MODEL_DIR = Path("/models") if Path("/models").exists() else Path(__file__).resolve().parents[3] / "models"
 
+scaler = None
+encoders = None
+kmeans = None
+
 def load_models():
     try :
         scaler   = joblib.load(MODEL_DIR / "scaler.pkl")
         encoders = joblib.load(MODEL_DIR / "encoders.pkl")
         kmeans   = joblib.load(MODEL_DIR / "kmeans.pkl")
+        print("scaler, encoders and kmeans created")
     except:
-        return None
+        return None, None, None, None
 
     model = Autoencoder(INPUT_DIM, LATENT_DIM)
     model.load_state_dict(torch.load(MODEL_DIR / "autoencoder.pt", weights_only=True))
     model.eval()  # désactive le dropout/batchnorm en mode training
-    return model
+    return model, scaler, encoders, kmeans
 
 # ─────────────────────────────────────────────
 # Fonction principale : données user → profil
@@ -73,7 +78,7 @@ def predict_profile(user_data: dict) -> int:
     Retourne : 1, 2, ou 3
     """
     # 1. Load le modele
-    model = load_models()
+    model, scaler, encoders, kmeans = load_models()
     if model is None:
         return None
 
@@ -87,6 +92,8 @@ def predict_profile(user_data: dict) -> int:
 
     # 2. Mise en forme + normalisation
     features = np.array(list(encoded.values()), dtype=float).reshape(1, -1)
+    print(f"ensemble des features : {features}")
+    print(f"ensemble encoded : {encoded}")
     features_scaled = scaler.transform(features)
 
     # 3. Passage dans l'autoencodeur → vecteur latent

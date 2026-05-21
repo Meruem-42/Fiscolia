@@ -9,6 +9,8 @@ url = "http://backend-auth:8000/api/edit-profile"
 with open("dataset.csv") as f:
     data = pd.read_csv(f)
 
+print("DEBUG CREATE PROFILES")
+print(data)
 col_names = data.columns
 for index, row in data.iterrows():
         data = {
@@ -19,7 +21,7 @@ for index, row in data.iterrows():
             "csp": str(row[col_names[5]]),
         }
         response = requests.post(url, json=data, headers={'Content-Type': 'application/json'})
-        print(f"test{index} registering - Status: {response.status_code} - {response.text}")
+        print(f"test{index} registering profiles - Status: {response.status_code} - {response.text}")
 
 
 

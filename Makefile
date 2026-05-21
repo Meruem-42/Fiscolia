@@ -34,6 +34,7 @@ training: env_check
 	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm training
 	@echo "$(CYAN)── Training container started in detached mode ──$(RESET)"
 	@echo "$(CYAN)Access with: docker compose -p $(PROJECT_NAME) -f srcs/docker-compose.yml exec training bash$(RESET)"
+	@docker image rm -f fiscolia-training || true
 # ADR
 
 adr:
@@ -50,8 +51,9 @@ env_check:
 create_users:
 	@python3 scripts/create_user/create_user.py	
 
-create_profiles:
-	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm create-profile
+create_profiles: env_check
+	docker compose --profile profile -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm create-profile
+	@docker image rm -f create-profile-image || true
 
 container_check:
 	@PROJECT_NAME=$(PROJECT_NAME) python3 ./scripts/container_checker.py

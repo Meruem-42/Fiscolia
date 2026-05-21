@@ -87,6 +87,7 @@ print(f"\nNormalized data : shape {X_scaled.shape}")
 print("\n── Training of the autoencodeur ──")
 
 INPUT_DIM = X_scaled.shape[1]
+print(f"taille de input dim : {INPUT_DIM}")
 
 class Autoencoder(nn.Module):
     def __init__(self, input_dim, latent_dim):
@@ -171,10 +172,30 @@ for p in sorted(df_clean["profile"].unique()):
     print(f"{'─'*40}")
     print(f"  {p}  –  {len(subset)} entries ({100*len(subset)/len(df_clean):.1f}%)")
     print(f"{'─'*40}")
-    for col in df.columns:
-        top = subset[col].value_counts().head(3)
-        top_str = ", ".join([f"{v} ({c})" for v, c in zip(top.index, top.values)])
-        print(f"  {col:35s}: {top_str}")
+    numeric_summary = subset.describe(percentiles=[0.25, 0.5, 0.75]).T
+    numeric_summary = numeric_summary.rename(columns={"50%": "median"})
+    print("\nRésumé numérique :")
+    print(numeric_summary)
+
+    categorical_cols = subset.select_dtypes(include=["object", "category"]).columns
+    if len(categorical_cols) > 0:
+        print("\nRésumé catégoriel (top 3 avec pourcentage) :")
+        for col in categorical_cols:
+            top = subset[col].value_counts(normalize=True).head(3) * 100
+            top_str = ", ".join([f"{value} ({pct:.1f}%)" for value, pct in top.items()])
+            print(f"  {col:35s}: {top_str}")
+    # RNI statistics requested: min, max, mean, median per cluster
+    if "rni" in subset.columns:
+        rni_vals = pd.to_numeric(subset["rni"], errors="coerce").dropna()
+        if len(rni_vals) == 0:
+            print("\nRNI : aucune valeur numérique disponible pour ce cluster")
+        else:
+            rni_min = rni_vals.min()
+            rni_max = rni_vals.max()
+            rni_mean = rni_vals.mean()
+            rni_median = rni_vals.median()
+            print("\nRNI (par cluster) :")
+            print(f"  min = {rni_min:.2f}, max = {rni_max:.2f}, mean = {rni_mean:.2f}, median = {rni_median:.2f}")
     print()
 
 # ─────────────────────────────────────────────
