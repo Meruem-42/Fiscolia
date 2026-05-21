@@ -14,7 +14,9 @@ all :
 	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml up -d --build
 	@sleep 2
 	@$(MAKE) container_check -s
-
+	@$(MAKE) ps 
+	@echo -e "$(YELLOW) Project available at http://localhost:8083 $(RESET)"
+	@echo -e "$(GREEN) Dashboard available at http://localhost:8083/kibana/app/dashboards $(RESET)"
 
 clean:
 	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down
@@ -27,9 +29,18 @@ fclean:
 
 re: clean all
 
+ps:
+	docker ps -a -f "name=$(PROJECT_NAME)"
 
+logs:
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml logs -f
 
 # ADR
+stop:
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml stop
+
+start:
+	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml start
 
 adr:
 	docker run -it --rm -v $(PWD):/app:Z -w /app \

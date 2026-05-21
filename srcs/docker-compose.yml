@@ -154,6 +154,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    volumes:
+      - ../logs/elasticsearch_data:/usr/share/elasticsearch/data:Z
     # Remove logging for elasticsearch to avoid circular dependency
     # logging:
     #   driver: gelf
