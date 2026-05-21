@@ -438,3 +438,36 @@ input {
 	font-size: clamp( 0.3rem, 1vw, 0.6rem );
 
 }
+
+.auth-button {
+
+	background-color: #7388f5;
+	color: black;
+
+	margin-top: 30px;
+	border-radius: 15px;
+	font-size: clamp( 0.8rem, 1.5vw, 1.2rem );
+	padding: clamp( 10px, 1vw, 14px );
+	width: 100%;
+
+  border: none;
+  box-shadow: 0 4px 6px rgba( 0, 0, 145, 0.2 );
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+}
+
+.auth-button:hover {
+
+  background-color: #bcc7ff;
+  box-shadow: 0 6px 12px rgba( 0, 0, 145, 0.3 );
+  transform: translateY( -2px );
+
+}
+
+.auth-button:active {
+
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba( 0, 0, 145, 0.2 );
+
+}

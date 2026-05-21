@@ -171,11 +171,11 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
         </div>
         <div>
 		      <div className="auth-error_message">{message}</div>
-          <button type="submit">Create Account</button>
+          <button className="auth-button" type="submit">Create Account</button>
         </div>
         <div>
           <Link to="/">
-            <button>Return to Home page</button>
+            <button className="auth-button">Return to Home page</button>
           </Link>
         </div>
       </form>

@@ -76,12 +76,12 @@ const MainBody = () => {
         </div>
 		    <div>
           <p className="auth-error-message">{message}</p>
-          <button type="submit">Connect</button>
+          <button className="auth-button" type="submit">Connect</button>
         </div>
       </form>
       <div>
         <Link to="/">
-          <button>Return to the home Page</button>
+          <button className="auth-button">Return to the home Page</button>
         </Link>
       </div>
     </div>
