@@ -128,7 +128,7 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
 
     <div className="register-page">
       <form className={style.form} onSubmit={handleSubmit}>
-        {/*<h1 className={style.page_title}>REGISTER</h1>
+        <h1 className={style.page_title}>REGISTER</h1>
         <div className={style.field_container}>
           <p className={style.field_name} >Email</p>
           <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
@@ -173,7 +173,7 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
           <Link to="/">
             <button>Return to Home page</button>
           </Link>
-        </div>*/}
+        </div>
       </form>
     </div>
   );
