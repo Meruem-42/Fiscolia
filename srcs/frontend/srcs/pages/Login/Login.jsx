@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Header, Footer } from '../../Components_of_site.jsx'
+import style from './Login.module.css';
 import '../../index.css'
 
 function Login() {
@@ -63,14 +64,20 @@ const MainBody = () => {
 
   return (
     <div className="main-body-style">
-      <h1>LOGIN</h1>
-      <form onSubmit={handleSubmit}>
-        <p>Email</p>
-        <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-        <p>Mot de passe</p>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
-		    <p>{message}</p>
-        <button type="submit">Connect</button>
+      <form className={style.login_form} onSubmit={handleSubmit}>
+        <h1 className="auth-page-title">LOGIN</h1>
+        <div className="auth-field-container">
+          <p className="auth-field-name">Email</p>
+          <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+        </div>
+        <div className="auth-field-container">
+          <p className="auth-field-name">Mot de passe</p>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
+        </div>
+		    <div>
+          <p className="auth-error-message">{message}</p>
+          <button type="submit">Connect</button>
+        </div>
       </form>
       <div>
         <Link to="/">

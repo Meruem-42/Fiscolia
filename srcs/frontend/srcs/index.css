@@ -373,8 +373,8 @@ button {
 
 	margin-top: 30px;
 	border-radius: 15px;
-	font-size: clamp( 0.5rem, 1.5vw, 1.2rem );
-	padding: clamp( 8px, 1vw, 14px );
+	font-size: clamp( 0.8rem, 1.5vw, 1.2rem );
+	padding: clamp( 10px, 1vw, 14px );
 	width: 100%;
 
 }
@@ -385,8 +385,56 @@ input {
 	background-color: #FFFFFF;
 	color: #000091;
 
-	padding: clamp( 6px, 1vw, 12px );
-	font-size: clamp( 0.1rem, 1.3vw, 1rem );
+	padding: clamp( 8px, 1vw, 9px );
+	font-size: clamp( 0.7rem, 1.3vw, 1rem );
 	width: 100%;
+
+}
+
+.auth-page-title {
+
+	color:#FFFFFF;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 200px;
+	letter-spacing: 1px;
+
+	font-size: clamp( 2rem, 3.5vw, 4rem );
+}
+
+.auth-field-container {
+
+	color: rgb(255, 255, 255);
+
+	display: flex;
+	flex-direction: column;
+	
+	gap: 5px;
+	width: 70%;
+}
+
+.auth-field-name {
+
+	color: rgb(204, 214, 236);
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: clamp( 1rem, 1.5vw, 1.2rem );
+}
+
+.auth-rules-verification {
+
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: line;
+	align-items: center;
+
+	gap: clamp( 5px, 1vw, 12px );
+	line-height: 1;
+
+}
+
+.auth-error-message {
+
+	color: #E1000F;
+    font-weight: bold;
+	font-size: clamp( 0.3rem, 1vw, 0.6rem );
 
 }
