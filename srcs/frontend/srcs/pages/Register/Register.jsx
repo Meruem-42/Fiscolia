@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import validator from 'validator';
 import style from './Register.module.css';
 import { Header, Footer } from '../../Components_of_site.jsx'
 import '../../index.css'
@@ -45,7 +46,15 @@ const MainBody = () => {
   });
 
   const getValidation = (field, value, data) => {
+
     switch (field) {
+      case "email":
+        return {
+          valid: validator.isEmail(value),
+          valid_format: /^[a-zA-Z0-9][a-zA-Z0-9._%-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value),
+          min_length: value.length >= 5,
+          max_length: value.length <= 254,
+        };
       case "password":
         return {
           length: value.length >= 8,
@@ -63,8 +72,8 @@ const MainBody = () => {
         };
       default:
         return {};
-    
     }
+
   };
 
   const handleChange = (e) => {
@@ -170,7 +179,7 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
           <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" />
         </div>
         <div>
-		      <div className="auth-error_message">{message}</div>
+		      <div className="auth-error-message">{message}</div>
           <button className="auth-button" type="submit">Create Account</button>
         </div>
         <div>

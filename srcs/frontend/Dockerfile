@@ -6,6 +6,7 @@ RUN apk update
 RUN npx create-vite@latest . --template react
 RUN npm install
 RUN npm install react-router-dom
+RUN npm install validator
 
 ARG FRONT_PORT
 EXPOSE $FRONT_PORT
