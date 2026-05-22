@@ -20,6 +20,8 @@ class UserData(BaseModel):
     rni: str
     csp: str
 
+
+
 class UserRegister(BaseModel):
     email: EmailStr
     password: str
@@ -154,7 +156,6 @@ def edit_profile(data: UserData, current_user: Optional[UserDB] = Depends(get_cu
     db.commit()
     db.refresh(new_data)
     return {"message": "Thank you, your data has been used for ML"}
-    
 
 # backend-auth/
 # ├── app/

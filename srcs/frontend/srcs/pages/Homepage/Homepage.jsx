@@ -6,13 +6,7 @@ function Home() {
 	return (
 	<div>
 		<p>Un projet, une vision</p>
-		<h1 style={{ color: '#818cf8', fontFamily: 'montserat'}}>Fiscolia</h1>
-	
-	<div>
-		<Link to="/backend">
-			<button>BACKEND</button>
-		</Link>
-	</div>
+		<h1 style={{ color: '#000091', fontFamily: 'montserat'}}>Fiscolia</h1>
 	<div>
 		<Link to="/login">
 			<button>LOGIN</button>
@@ -21,6 +15,11 @@ function Home() {
 	<div>
 		<Link to="/register">
 			<button>REGISTER</button>
+		</Link>
+	</div>
+	<div>
+		<Link to="/chatbot">
+			<button>ASK ME ANYTHING</button>
 		</Link>
 	</div>
 	</div>

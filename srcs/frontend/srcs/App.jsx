@@ -9,6 +9,7 @@ import Register from './pages/Register/Register.jsx';
 import EditProfile from './pages/EditProfile/EditProfile.jsx';
 import Upload from './pages/Upload/Upload.jsx';
 import UserSession from './pages/UserSession/UserSession.jsx';
+import Chatbot from './pages/Chatbot/Chatbot.jsx';
 
 function App() {
 	return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/edit-profile" element={<EditProfile />} />
 	  <Route path="/upload" element={<Upload />} />
 	  <Route path="/session" element={<UserSession />} />
+	  <Route path="/chatbot" element={<Chatbot />} />
     </Routes>
   </BrowserRouter>
 	)

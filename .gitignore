@@ -1,3 +1,4 @@
 .env
 secrets/*.txt
 models/*
+srcs/backend-chatbot/config/ma_base_chroma
