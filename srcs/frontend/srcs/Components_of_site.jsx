@@ -1,5 +1,5 @@
-import {Link} from 'react-router-dom'
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom'
+import { useState } from 'react'
 import './index.css'
 import logo from './assets/logo.png'
 import github_logo from './assets/github_logo.png'
@@ -7,7 +7,9 @@ import github_logo from './assets/github_logo.png'
 
 export const Header = ({ animatedLogo }) => {
 
-    const [menuOpen, setMenuOpen] = useState( false )
+    const location = useLocation();
+    const isHomePage = location.pathname === "/";
+    const [menuOpen, setMenuOpen] = useState( false );
 
     return (
         <header className="header-style">
@@ -16,7 +18,8 @@ export const Header = ({ animatedLogo }) => {
                 <img
 			    	src={logo}
 			    	alt="logo"
-			    	className={ animatedLogo ? "header-logo-animated" : "header-logo"}
+                    key={ location.pathname }
+			    	className={ isHomePage ? "header-logo-animated" : "header-logo"}
 			    />
             </Link>
 

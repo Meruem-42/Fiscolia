@@ -6,19 +6,14 @@ import '../../index.css'
 
 function Home() {
 
-	return (	
-		<div className="default-background">
-
+	return (
+		<div className="main-body-style">
 			<div className="intro-logo-homepage">
 				<img src={logo} alt="logo" className="intro-logo-homepage-animation" />
 			</div>
-			
-			<div className="main-body-style">
-				<p>Un projet, une vision</p>
-				<h1>Fiscolia</h1>
-			</div>
-			
-		</div>
+			<p>Un projet, une vision</p>
+			<h1>Fiscolia</h1>
+		</div>			
 	)
 
 }

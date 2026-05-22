@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter, Routes, Route,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Header, Footer } from './Components_of_site.jsx'
 import './index.css';
 import Home from './pages/Homepage/Homepage.jsx';
@@ -19,7 +17,7 @@ function App() {
 	  <BrowserRouter>
 		  <div className="page">
 
-        <Header animatedLogo={false} />
+        <Header />
 
         <div className="default-background">
           <Routes>
