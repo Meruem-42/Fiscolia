@@ -10,7 +10,7 @@ import '../../index.css'
 const getIndicatorStyle = (field, isRuleMet) => {
 
   return {
-    color: field.length === 0 ? "#f8875d" : (isRuleMet? "#0ac900" : "#E1000F"),
+    color: field.length === 0 ? "var(--color-gray)" : (isRuleMet? "#0ac900" : "#E1000F"),
     fontSize: "clamp( 0.5rem, 1vw, 0.6rem )",
     marginBottom: "clamp( 0.1rem, 1vw, 0.5rem )",
     fontWeight: "bold",

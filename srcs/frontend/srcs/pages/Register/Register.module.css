@@ -5,7 +5,7 @@
 	aspect-ratio: 6/9;
 	overflow-y: auto;
 
-	background-color: #000091;
+	background-color: var(--color-blue);
 
 	border-radius: clamp( 15px, 2vw, 30px );
 	padding: clamp(20px, 5vw, 40px);
