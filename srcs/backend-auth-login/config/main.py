@@ -10,7 +10,7 @@ from connect_db import UserDB, get_db, auth, UserDataDB, SessionDB
 from security import verify_password, hash_password, check_password
 from session_store import create_session, get_session, delete_session
 
-from predict import predict_profile
+from predict import predict_profile, extract_profiles_info
 
 
 class UserData(BaseModel):
@@ -99,9 +99,11 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db), se
 	}
     profil = predict_profile(user_data)
     print(profil)
+    profiles_info = extract_profiles_info()
     return {
         "message": f"Bienvenue {user.email}, vous appartenez au groupe {profil}",
         "profile_complete": True,
+        "profiles_infos": profiles_info,
     }
 
 
