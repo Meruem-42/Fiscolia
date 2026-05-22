@@ -64,9 +64,15 @@ function Login() {
       if (!response.ok) {
         const errorData = await response.json();
         setMessage(errorData.detail || "Email or password incorrect");
+
+        setFormData({
+          email: "",
+          password: "",
+        });
+
         return;
       }
-
+      navigate( "/session" );
       const data = await response.json();
       setMessage(data.message);
       

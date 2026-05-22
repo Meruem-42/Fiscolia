@@ -101,11 +101,20 @@ function Register() {
 		if (!response.ok)
 		{
 			setMessage("Une erreur est survenue");
+      setFormData({
+        email: "",
+        confirm_email: "",
+        password: "",
+        confirm_password: "",
+        firstname: "",
+        lastname: "",
+      }); 
 			return ;
 		}
+    navigate("/register-success");
 		const data = await response.json();
 		console.log(data);
-		setMessage(data.message);
+		//setMessage(data.message);
 	}
 	catch (error) {
 		setMessage("ERROR");
