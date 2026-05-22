@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import validator from 'validator';
 import style from './Login.module.css';
 import '../../index.css'
 
@@ -12,6 +13,21 @@ function Login() {
     password: "",
   });
 
+  const getValidation = (field, value, data) => {
+  
+      switch (field) {
+        case "email":
+          return {
+            not_empty: value.trim() !== "",
+            valid: validator.isEmail(value),
+          };
+        case "password":
+          return {
+            not_empty: value.trim() !== "",
+          }
+        }
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -19,6 +35,22 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // VERIFICATION DATA
+    const fieldsToValidate = ["email", "password"];
+
+    for (const fieldName of fieldsToValidate) {
+      const value = formData[fieldName];
+      const rules = getValidation(fieldName, value, formData);
+      
+      const isFieldValid = Object.values(rules).every(v => v === true);
+
+      if (!isFieldValid) {
+        setMessage(`Invalid email or password`);
+        return;
+      }
+    }
+
     try {
       const response = await fetch("/api/auth-login", {
         method: 'POST',

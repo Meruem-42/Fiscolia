@@ -34,6 +34,7 @@ function Register() {
     switch (field) {
       case "email":
         return {
+          not_empty: value.trim() !== "",
           valid: validator.isEmail(value),
           valid_format: /^[a-zA-Z0-9][a-zA-Z0-9._%-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value),
           min_length: value.length >= 5,
