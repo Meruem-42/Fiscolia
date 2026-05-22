@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import validator from 'validator';
 import style from './Register.module.css';
-import { Header, Footer } from '../../Components_of_site.jsx'
 import '../../index.css'
 
 
@@ -20,21 +19,6 @@ const getIndicatorStyle = (field, isRuleMet) => {
 
 function Register() {
 
-    return (	
-      <div className="page">
-        <Header animatedLogo={false} />
-        <div className="default-background">
-          <MainBody />
-        </div>
-        <Footer />
-      </div>
-    )
-
-}
-
-export default Register
-
-const MainBody = () => {
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -189,5 +173,8 @@ const confirmRulesEmail = getValidation("confirm_email", formData.confirm_email,
         </div>
       </form>
     </div>
-  );
+  )
+
 }
+
+export default Register

@@ -32,9 +32,9 @@ export const Header = ({ animatedLogo }) => {
 
             { menuOpen && (
                 <nav className={ `burger-menu ${menuOpen ? "open" : "" }`} >
-                    <a href="/">Home</a>
-                    <a href="/login">Login</a>
-                    <a href="/register">Register</a>
+                    <Link to="/">Home</Link>
+                    <Link to="/login">Login</Link>
+                    <Link to="/register">Register</Link>
                 </nav>
             )}
 
@@ -42,6 +42,7 @@ export const Header = ({ animatedLogo }) => {
     )
 
 }
+export default Header;
 
 export const Footer = () => {
     

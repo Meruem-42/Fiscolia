@@ -1,26 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Header, Footer } from '../../Components_of_site.jsx'
 import style from './Login.module.css';
 import '../../index.css'
 
 function Login() {
-
-
-  return (
-    <div className="page">
-      <Header animatedLogo={false} />
-        <div className="default-background">
-          <MainBody />
-        </div>
-        <Footer />
-    </div>
-  )
-}
-
-export default Login
-
-const MainBody = () => {
 
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -86,5 +69,7 @@ const MainBody = () => {
       </div>
     </div>
   )
-  
+
 }
+
+export default Login
