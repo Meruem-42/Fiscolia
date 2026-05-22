@@ -5,7 +5,7 @@ import logo from './assets/logo.png'
 import github_logo from './assets/github_logo.png'
 
 
-export const Header = ({ animatedLogo }) => {
+export const Header = ({ isAuthenticated }) => {
 
     const location = useLocation();
     const isHomePage = location.pathname === "/";
@@ -36,8 +36,18 @@ export const Header = ({ animatedLogo }) => {
             { menuOpen && (
                 <nav className={ `burger-menu ${menuOpen ? "open" : "" }`} >
                     <Link to="/">Home</Link>
-                    <Link to="/login">Login</Link>
-                    <Link to="/register">Register</Link>
+
+                    { isAuthenticated ? (
+                        <>
+                            <Link to="/session">Mon Profil</Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login">Login</Link>
+                            <Link to="/register">Register</Link>
+                        </>
+                    )
+                    }
                 </nav>
             )}
 

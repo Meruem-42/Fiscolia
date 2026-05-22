@@ -4,7 +4,7 @@ import validator from 'validator';
 import style from './Login.module.css';
 import '../../index.css'
 
-function Login() {
+function Login({ setIsAuthenticated }) {
 
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -72,6 +72,7 @@ function Login() {
 
         return;
       }
+      setIsAuthenticated(true);
       navigate( "/session" );
       const data = await response.json();
       setMessage(data.message);
