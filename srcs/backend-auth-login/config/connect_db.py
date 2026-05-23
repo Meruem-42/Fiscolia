@@ -60,6 +60,7 @@ class UserDataDB(Base):
     csp = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=True)
     user = relationship("UserDB", back_populates="data")
+    profile = Column(Integer, nullable=True)
 
 class SessionDB(Base):
     __tablename__ = "sessions"

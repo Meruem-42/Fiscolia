@@ -83,27 +83,10 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db), se
         session_id = create_session(db, user.id, data={"email": user.email}, ttl_seconds=7 * 24 * 3600)
         response.set_cookie(key="session_id", value=session_id, httponly=True, samesite="lax", max_age=7 * 24 * 3600)
         
-    if not user.data:
-        return {
-            "message": f"Bienvenue {user.email}, votre compte est connecté mais votre profil n'est pas encore renseigné.",
-            "profile_complete": False,
-        }
-
-    user_data = {
-        # "index": user.data.id,
-        "etat_civil": user.data.etat_civil,
-        "quotient_familial": user.data.quotient_familial,
-        "situation_specifique": user.data.situation_specifique,
-        "rni": user.data.rni,
-        "csp": user.data.csp,
-	}
-    profil = predict_profile(user_data)
-    print(profil)
-    profiles_info = extract_profiles_info()
     return {
-        "message": f"Bienvenue {user.email}, vous appartenez au groupe {profil}",
-        "profile_complete": True,
-        "profiles_infos": profiles_info,
+        "message": f"Bienvenue {user.email}",
+        # "profile_complete": True,
+        # "profiles_infos": profiles_info,
     }
 
 
@@ -142,13 +125,22 @@ def get_current_user_optional(session_id: Optional[str] = Cookie(None), db: Sess
 
 @auth.post("/api/edit-profile")
 def edit_profile(data: UserData, current_user: Optional[UserDB] = Depends(get_current_user_optional), db: Session = Depends(get_db)):
+    user_data = {
+        "etat_civil": data.etat_civil,
+        "quotient_familial": data.quotient_familial,
+        "situation_specifique": data.situation_specifique,
+        "rni": data.rni,
+        "csp": data.csp,
+	}
+    profile_info = predict_profile(user_data)
     new_data = UserDataDB(
         etat_civil=data.etat_civil,
         quotient_familial=data.quotient_familial,
         situation_specifique=data.situation_specifique,
         rni=data.rni,
         csp=data.csp,
-        user_id=current_user.id if current_user else None
+        user_id=current_user.id if current_user else None,
+        profile = profile_info
     )
     db.add(new_data)
     db.commit()
