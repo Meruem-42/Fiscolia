@@ -49,8 +49,10 @@ adr:
 env_check:
 	@python3 ./scripts/env_checker.py
 
-create_users:
-	@python3 scripts/create_user/create_user.py	
+create_users: env_check
+	docker compose --profile profile-create-user -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml build create-user
+	docker compose --profile profile-create-user -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm create-user
+	@docker image rm -f create-user-image || true
 
 vector_db: env_check
 # 	@mkdir -p $(PWD)/models/ollama
@@ -62,7 +64,8 @@ vector_db: env_check
 	docker compose -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml down ollama
 
 create_profiles: env_check
-	docker compose --profile profile -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm create-profile
+	docker compose --profile profile-create-profile -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml build create-profile
+	docker compose --profile profile-create-profile -p $(PROJECT_NAME) --env-file .env -f srcs/docker-compose.yml run --rm create-profile
 	@docker image rm -f create-profile-image || true
 
 container_check:

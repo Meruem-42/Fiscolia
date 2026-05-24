@@ -1,7 +1,7 @@
 import json
 import requests
 
-url = "http://localhost:8083/api/auth-register"
+url = "http://backend-auth:8000/api/auth-register"
 
 for i in range(1, 11):
     data = {
@@ -17,7 +17,7 @@ for i in range(1, 11):
     print(f"test{i} registering - Status: {response.status_code} - {response.text}")
 
 
-url = "http://localhost:8083/api/auth-login"
+url = "http://backend-auth:8000/api/auth-login"
 
 for i in range(1, 6):
     data = {

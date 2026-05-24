@@ -135,7 +135,22 @@ services:
     env_file:
       - ../.env
     profiles:
-      - profile
+      - profile-create-profile
+
+  create-user:
+    container_name: ${PROJECT_NAME}-create-user
+    image: create-user-image
+    build:
+      context: ../scripts/create_user
+    depends_on:
+      backend-auth:
+        condition: service_started
+    networks:
+      - fiscolia
+    env_file:
+      - ../.env
+    profiles:
+      - profile-create-user
 
   training:
     container_name: ${PROJECT_NAME}-training
