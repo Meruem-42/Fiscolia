@@ -1,15 +1,17 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { handleLogout } from './pages/Utils/Logout.jsx'
 import './index.css'
 import logo from './assets/logo.png'
 import github_logo from './assets/github_logo.png'
 
 
-export const Header = ({ isAuthenticated }) => {
+export const Header = ({ isAuthenticated, setIsAuthenticated }) => {
 
     const location = useLocation();
     const isHomePage = location.pathname === "/";
     const [menuOpen, setMenuOpen] = useState( false );
+    const navigate = useNavigate();
 
     return (
         <header className="header-style">
@@ -40,6 +42,9 @@ export const Header = ({ isAuthenticated }) => {
                     { isAuthenticated ? (
                         <>
                             <Link to="/session">Mon Profil</Link>
+                            <button className="menu-button-logout" type="button" onClick={ () => handleLogout(navigate, setIsAuthenticated) }>
+                                Se deconnecter
+                            </button>
                         </>
                     ) : (
                         <>

@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { handleLogout } from '../Utils/Logout.jsx';
 
-export default function UserSession() {
+export default function UserSession({ setIsAuthenticated }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -66,19 +67,7 @@ export default function UserSession() {
     fetchUser();
   }, [navigate]);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/auth-logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      console.log("Logout response:", response.status);
-    } catch (err) {
-      console.error("Logout error:", err);
-    } finally {
-      navigate("/");
-    }
-  };
+
 
   const handleUpload = () => {
     navigate("/upload");
@@ -98,8 +87,8 @@ export default function UserSession() {
       <h1 className="auth-page-title">Bienvenue, {user.firstname}</h1>
       <p className="auth-field-name">Vous etes connectes ✓</p>
       <div>
-        <button className="auth-button" type="button" onClick={handleLogout}>
-          Logout
+        <button className="auth-button" type="button" onClick={ () => handleLogout(navigate, setIsAuthenticated) }>
+          Se deconnecter
         </button>
       </div>
     </div>
