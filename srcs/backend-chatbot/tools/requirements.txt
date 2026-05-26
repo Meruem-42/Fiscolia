@@ -10,3 +10,4 @@ langchain_ollama
 langchain_community
 pypdf
 starlette
+asyncio

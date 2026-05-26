@@ -149,7 +149,7 @@ services:
     networks:
       - fiscolia
     volumes:
-      - ${OLLAMA_MODELS_PATH}:/root/.ollama
+      - ${OLLAMA_MODELS_PATH}:/root/.ollama:Z
     env_file:
       - ../.env
 
@@ -240,15 +240,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    volumes:
-      - ../logs/elasticsearch_data:/usr/share/elasticsearch/data:Z
-    # Remove logging for elasticsearch to avoid circular dependency
-    # logging:
-    #   driver: gelf
-    #   options:
-    #     gelf-address: "udp://127.0.0.1:12201"
-    #     tag: "fiscolia-elasticsearch"
-    #     gelf-compression-type: "gzip"
+    # volumes:
+    #   - ../logs/elasticsearch_data:/usr/share/elasticsearch/data:Z
 
 
   kibana:
@@ -259,6 +252,8 @@ services:
       - ELASTICSEARCH_HOSTS=http://fiscolia-elasticsearch:9200
       - SERVER_BASEPATH=/kibana
       - SERVER_REWRITEBASEPATH=true
+    volumes:
+      - ./logs-kibana/conf/export.ndjson:/tmp/dashboards.ndjson:ro,Z
     expose:
       - 5601
     networks:
@@ -272,6 +267,7 @@ services:
     depends_on:
       logstash:
         condition: service_healthy 
+    restart: always
 
 
 networks:

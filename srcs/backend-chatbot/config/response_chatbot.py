@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from test import get_agent_answer, OLLAMA_CHAT_MODEL, client_ollama
 from contextlib import asynccontextmanager
 from starlette.websockets import WebSocketDisconnect
+# import asyncio
 
 
 class UserFront(BaseModel):
@@ -46,8 +47,8 @@ async def websocket_endpoint(websocket: WebSocket):
                         # Optional: small delay for more natural flow
                         # import asyncio
                         # await asyncio.sleep(0.01)  # 10ms between chars
-                # await websocket.send_text("Done !")
-            except :
+                        # await websocket.send_text("Done !")
+            except:
                 return {"message": f"Error on AI backend"}
     except WebSocketDisconnect:
         print("Client disconnected") 
