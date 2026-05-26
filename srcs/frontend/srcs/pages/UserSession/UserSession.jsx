@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { handleLogout } from '../Utils/Logout.jsx';
+import { ChatBotEmoji } from './ChatBotEmoji.jsx';
 
 export default function UserSession({ setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -90,6 +91,14 @@ export default function UserSession({ setIsAuthenticated }) {
         <button className="auth-button" type="button" onClick={ () => handleLogout(navigate, setIsAuthenticated) }>
           Se deconnecter
         </button>
+      </div>
+      <div className="chat-box-container">
+        <div>
+          <ChatBotEmoji />
+        </div>
+        <div className="text-under-emoji">
+          Besoin d'aide?
+        </div>
       </div>
     </div>
   );
