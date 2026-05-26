@@ -5,32 +5,33 @@
 	justify-content: center ;
 	min-height: 100vh;
 	text-align: center;
-	background-color: #FFFFFF;
+	background-color: #1a1a1a;
 }
 
 .form {
-	background-color: #000091;
+	background-color: #2a2a3a;
 	padding: 40px;
 	border-radius: 15px;
-	box-shadow: 0 10px 25px rgba(0, 0, 145, 3);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 10px;
 	width: 100%;
 	max-width: 400px;
-	color: white;
+	color: #e0e0e0;
+	border: 1px solid #3a3a4a;
 }
 
 .page_title {
-	color:#FFFFFF;
+	color:#f3f4f6;
 	font-family: 'Times New Roman', Times, serif;
 	font-weight: 200px;
 	letter-spacing: 1px;
 }
 
 .field_container {
-	color: rgb(255, 255, 255);
+	color: #e0e0e0;
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
@@ -44,10 +45,20 @@
 
 input {
 	border-radius: 15px;
-	background-color: #FFFFFF;
-	color: #000091;
+	background-color: #333345;
+	color: #e0e0e0;
 	padding: 5px;
+	border: 1px solid #4a4a5a;
+	transition: border-color 0.2s;
+}
 
+input:focus {
+	outline: none;
+	border-color: #818cf8;
+}
+
+input::placeholder {
+	color: #888;
 }
 .rules_verification {
 
@@ -60,10 +71,21 @@ line-height: 1;
 
 button {
 	margin-top: 10px;
-	background-color: #FFFFFF;
-	color: #000091;
+	background-color: #818cf8;
+	color: #fff;
 	border-radius: 15px;
 	font-size: large;
 	width: 100%;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
 
+button:hover {
+	background-color: #6366f1;
+}
+
+button:disabled {
+	background-color: #4a4a5a;
+	cursor: not-allowed;
 }

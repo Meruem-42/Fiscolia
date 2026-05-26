@@ -47,7 +47,7 @@ export default function FileUpload() {
 
   return (
     <div style={{ textAlign: "center", alignContent: "center" }}>
-      <h1 style={{ color: "#000091" }}>Fiscolia uploading center</h1>
+      <h1 style={{ color: "#818cf8" }}>Fiscolia uploading center</h1>
 
       <div>
         <p>Choose a file</p>
@@ -68,13 +68,15 @@ export default function FileUpload() {
 		<div style={{ textAlign: "left", marginTop: "2rem" }}>
 			<p><strong>Type de PDF :</strong> {result.pdf_type}</p>
 			<pre style={{
-			background: "#f5f5f5",
+			background: "#252525",
 			padding: "1rem",
 			borderRadius: "8px",
 			maxHeight: "400px",
 			overflowY: "auto",
 			whiteSpace: "pre-wrap",
-			fontSize: "0.85rem"
+			fontSize: "0.85rem",
+			color: "#e0e0e0",
+			border: "1px solid #3a3a4a"
 			}}>
 			{result.extracted_text}
 			</pre>

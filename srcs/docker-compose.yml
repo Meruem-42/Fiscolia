@@ -47,7 +47,24 @@ services:
         condition: service_started
       logstash:
         condition: service_healthy
+      backend-chatbot:
+        condition: service_started
 
+
+  backend-chatbot:
+    container_name: ${PROJECT_NAME}-backend-chatbot
+    image: backend-chatbot-image
+    build: 
+      context: ./backend-chatbot
+      args:
+        BACK_CHATBOT_PORT: ${BACK_CHATBOT_PORT}
+    depends_on:
+      ollama:
+        condition: service_started
+    networks:
+      - fiscolia
+    env_file:
+      - ../.env
 
   backend-auth:
     container_name: ${PROJECT_NAME}-backend-auth
@@ -60,6 +77,8 @@ services:
       - label:disable
     networks:
       - fiscolia
+    volumes:
+      - ../models:/models:ro
     env_file:
       - ../.env
     secrets:
@@ -78,6 +97,8 @@ services:
   db-auth:
     container_name: ${PROJECT_NAME}-db-auth
     image: db-auth-image
+    volumes:
+      - db_auth:/var/lib/postgresql/data:Z
     build:
       context: ./database-auth
       args:
@@ -116,6 +137,71 @@ services:
   #   env_file:
   #     - ../.env
   #   restart: unless-stopped
+  ollama:
+    container_name: ${PROJECT_NAME}-ollama
+    image: ollama/ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - fiscolia
+    volumes:
+      - ${OLLAMA_MODELS_PATH}:/root/.ollama
+    env_file:
+      - ../.env
+
+
+  create-profile:
+    container_name: ${PROJECT_NAME}-create-profile
+    image: create-profile-image
+    build:
+      context: ../scripts/create_profile
+    depends_on:
+      backend-auth:
+        condition: service_started
+    networks:
+      - fiscolia
+    env_file:
+      - ../.env
+    profiles:
+      - profile-create-profile
+
+  create-user:
+    container_name: ${PROJECT_NAME}-create-user
+    image: create-user-image
+    build:
+      context: ../scripts/create_user
+    depends_on:
+      backend-auth:
+        condition: service_started
+    networks:
+      - fiscolia
+    env_file:
+      - ../.env
+    profiles:
+      - profile-create-user
+
+  training:
+    container_name: ${PROJECT_NAME}-training
+    image: fiscolia-training
+    build:
+      context: ./training
+    depends_on:
+      db-auth:
+        condition: service_started
+    volumes:
+      - ../models:/app/models:Z
+    networks:
+      - fiscolia
+    env_file:
+      - ../.env
+    profiles:
+      - training
+    secrets:
+      - db_auth_pwd
 
   logstash:
     container_name: ${PROJECT_NAME}-logstash
@@ -193,8 +279,13 @@ networks:
     name: fiscolia-network
     driver: bridge
 
+volumes:
+  db_auth:
+    driver: local
+
 secrets:
   db_auth_pwd:
     file: ../secrets/db_auth_pwd.txt
   db_root_pwd:
     file: ../secrets/db_root_pwd.txt
+

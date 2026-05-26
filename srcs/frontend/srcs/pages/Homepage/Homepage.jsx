@@ -7,12 +7,6 @@ function Home() {
 	<div>
 		<p>Un projet, une vision</p>
 		<h1 style={{ color: '#000091', fontFamily: 'montserat'}}>Fiscolia</h1>
-	
-	<div>
-		<Link to="/backend">
-			<button>BACKEND</button>
-		</Link>
-	</div>
 	<div>
 		<Link to="/login">
 			<button>LOGIN</button>
@@ -24,8 +18,8 @@ function Home() {
 		</Link>
 	</div>
 	<div>
-		<Link to="/upload">
-			<button>UPLOAD FILE</button>
+		<Link to="/chatbot">
+			<button>ASK ME ANYTHING</button>
 		</Link>
 	</div>
 	</div>
