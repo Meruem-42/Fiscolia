@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { handleLogout } from '../Utils/Logout.jsx';
 import { ChatBotEmoji } from './ChatBotEmoji.jsx';
+import './UserSession.css'
 
 export default function UserSession({ setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -85,21 +86,34 @@ export default function UserSession({ setIsAuthenticated }) {
 
   return (
     <div className="main-body-style">
-      <h1 className="auth-page-title">Bienvenue, {user.firstname}</h1>
-      <p className="auth-field-name">Vous etes connectes ✓</p>
-      <div>
-        <button className="auth-button" type="button" onClick={ () => handleLogout(navigate, setIsAuthenticated) }>
-          Se deconnecter
-        </button>
-      </div>
-      <div className="chat-box-container">
+      <div className="session-form">
+        <SessionHeader user={ user } />
+        <h1 className="auth-page-title">Bienvenue, {user.firstname}</h1>
+        <p className="auth-field-name">Vous etes connectes ✓</p>
         <div>
-          <ChatBotEmoji />
+          <button className="auth-button" type="button" onClick={ () => handleLogout(navigate, setIsAuthenticated) }>
+            Se deconnecter
+          </button>
         </div>
-        <div className="text-under-emoji">
-          Besoin d'aide?
+        <div className="chat-box-container">
+          <div>
+            <ChatBotEmoji />
+          </div>
+          <div className="text-under-emoji">
+            Besoin d'aide?
+          </div>
         </div>
       </div>
     </div>
   );
+}
+
+export function SessionHeader ({ user }) {
+
+  return (
+    <div className="session-header">
+      <p className="session-header-text-bold">{user.firstname} {user.lastname}</p>
+      <p className="session-header-text">Numero fiscal: 9334012429019</p>
+    </div>
+  )
 }
