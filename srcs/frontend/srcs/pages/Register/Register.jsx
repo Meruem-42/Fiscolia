@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import validator from 'validator';
 import style from './Register.module.css';
@@ -20,6 +20,7 @@ const getIndicatorStyle = (field, isRuleMet) => {
 function Register() {
 
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     confirm_email: "",
@@ -111,8 +112,8 @@ function Register() {
       }); 
 			return ;
 		}
-    navigate("/register-success");
 		const data = await response.json();
+    navigate("/register-success");
 		console.log(data);
 		//setMessage(data.message);
 	}
