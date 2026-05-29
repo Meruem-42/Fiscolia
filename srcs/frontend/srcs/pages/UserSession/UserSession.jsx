@@ -105,12 +105,7 @@ export default function UserSession({ setIsAuthenticated }) {
           <div className="session-separator"></div>
           <p class="session-p">Adresse électronique: {user.email}</p>
 
-          <h2 className="session-h2">Mes preferences de communication</h2>
-          <div className="session-separator"></div>
-          <p className="session-p">Préférences activées pour etre informé de l'actualité pouvant me concerner:</p>
-          <br />
-          <p className="session-p">❌ Par courriel</p>
-          <p className="session-p">✅ Par SMS</p>
+
           <div className="session-button-position">
             <button className="auth-button">Modifier</button>
           </div>
