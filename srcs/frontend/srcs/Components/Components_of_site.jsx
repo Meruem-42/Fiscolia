@@ -1,7 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { handleLogout } from '../pages/Utils/Logout.jsx'
 import '../index.css'
+import './Components_of_site.css'
 import logo from '../assets/logo.png'
 import github_logo from '../assets/github_logo.png'
 
@@ -37,13 +39,56 @@ export default Header;
 
 export function Menu({ isAuthenticated, setIsAuthenticated }) {
     
+    const [isOpen, setIsOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState( false );
     const navigate = useNavigate();
-    
+    const withClose = (fn) => () => { fn(); setIsOpen(false); };
+
+    const guestOptions = [
+        { label: "Accueil", action: withClose(() => navigate( "/" )) },
+        { label: "Se connecter", action: withClose(() => navigate( "/login" )) },
+        { label: "S'inscrire", action: withClose(() => navigate( "/register" )) },
+    ];
+
+    const userOptions = [
+        { label: "Accueil", action: withClose(() => navigate( "/" )) },
+        { label: "Mon profil", action: withClose(() => navigate( "/session" )) },
+        { label: "Se déconnecter", action: withClose(() => handleLogout( navigate, setIsAuthenticated)) },
+    ];
+
+    const options = isAuthenticated ? userOptions : guestOptions;
+
     return (
-        <>
+
+        <div className="dropdown-container">
+            <button
+                className="dropdown-button"
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                Menu
+                <ChevronDown
+                  size={18}
+                  className={`arrow ${isOpen ? "rotate" : ""}`}
+                />
+            </button>
+
+            <div className={`dropdown-menu ${isOpen ? "open" : ""}`}>
+              {options.map((item) => (
+                <div
+                    key={item.label}
+                    className={`dropdown-item ${item.label === "Se déconnecter" ? "menu-button-logout" : ""}`}
+                    onClick={item.action}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+        </div>
+  );
+}
+       /*} <>
          <button 
-                className="burger-menu-button"
+                className="dropdown-button"
                 onClick={() => setMenuOpen( !menuOpen )}
             >
 
@@ -72,9 +117,9 @@ export function Menu({ isAuthenticated, setIsAuthenticated }) {
                     }
                 </nav>
             )}
-        </>
-    )
-}
+        </>*/
+    
+
 
 export const Footer = () => {
     
