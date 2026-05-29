@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { handleLogout } from './pages/Utils/Logout.jsx'
-import './index.css'
-import logo from './assets/logo.png'
-import github_logo from './assets/github_logo.png'
+import { handleLogout } from '../pages/Utils/Logout.jsx'
+import '../index.css'
+import logo from '../assets/logo.png'
+import github_logo from '../assets/github_logo.png'
 
 
 export const Header = ({ isAuthenticated, setIsAuthenticated }) => {
@@ -18,14 +18,31 @@ export const Header = ({ isAuthenticated, setIsAuthenticated }) => {
             
             <Link to="/" className="link-logo">
                 <img
-			    	src={logo}
-			    	alt="logo"
+                    src={logo}
+                    alt="logo"
                     key={ location.pathname }
-			    	className={ isHomePage ? "header-logo-animated" : "header-logo"}
-			    />
+                    className={ isHomePage ? "header-logo-animated" : "header-logo"}
+                />
             </Link>
+            <Menu
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+            />
 
-            <button 
+        </header>
+    )
+
+}
+export default Header;
+
+export function Menu({ isAuthenticated, setIsAuthenticated }) {
+    
+    const [menuOpen, setMenuOpen] = useState( false );
+    const navigate = useNavigate();
+    
+    return (
+        <>
+         <button 
                 className="burger-menu-button"
                 onClick={() => setMenuOpen( !menuOpen )}
             >
@@ -55,17 +72,14 @@ export const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                     }
                 </nav>
             )}
-
-        </header>
+        </>
     )
-
 }
-export default Header;
 
 export const Footer = () => {
     
     return (
-		<footer className="footer-style" >
+        <footer className="footer-style" >
             <Link to="/privacy_policy" className="terms-and-policies">
                 Privacy Policy
             </Link>
@@ -85,7 +99,7 @@ export const Footer = () => {
             <Link to="/terms_of_service" className="terms-and-policies">
                 Terms of Service
             </Link>
-		</footer>
+        </footer>
     )
 
 }

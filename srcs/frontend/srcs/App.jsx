@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Header, Footer } from './Components_of_site.jsx'
+import { Header, Footer } from './Components/Components_of_site.jsx'
 import './index.css';
 import Home from './pages/Homepage/Homepage.jsx';
 import Test_back_end from './pages/Test_back_end';
