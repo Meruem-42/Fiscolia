@@ -86,37 +86,50 @@ export default function UserSession({ setIsAuthenticated }) {
 
   return (
     <div className="main-body-style">
-      <div className="session-form">
+     
         <SessionHeader user={ user } />
-        <div className="session-form-body">
-          <h1 className="session-h1">Mes informations personnelles</h1>
-          <h2 className="session-h2">Mon identite</h2>
-          <div className="session-separator"></div>
-          <p class="session-p">Prénom</p>
-          <p class="session-p">Nom</p>
-          <p class="session-p">Date de naissance</p>
-          <p class="session-p">Lieu de naissance</p>
+        <div className="session-body">
+          <div className="left-block">
+            <h1 className="session-h1">Mes informations personnelles</h1>
+            <h2 className="session-h2">Mon identite</h2>
+            <div className="session-separator"></div>
+            <div className="key-value">
+              <p class="session-p">Prénom</p>
+              <p class="session-p value">{user.firstname}</p>
+            </div>
+            <div className="key-value">
+              <p class="session-p">Nom</p>
+              <p class="session-p value">{user.lastname}</p>
+            </div>
+            <div className="key-value">
+              <p class="session-p">Date de naissance</p>
+              <p class="session-p value">non spécifié</p>
+            </div>
+            <div className="key-value">
+              <p class="session-p">Lieu de naissance</p>
+              <p class="session-p value">non spécifié</p>
+            </div>
 
-          <h2 className="session-h2">Mon mot de passe</h2>
-          <div className="session-separator"></div>
-          <p class="session-p">*********</p>
+            <h2 className="session-h2">Mon mot de passe</h2>
+            <div className="session-separator"></div>
+            <p class="session-p">*********</p>
 
-          <h2 className="session-h2">Mes moyens de contact</h2>
-          <div className="session-separator"></div>
-          <p class="session-p">Adresse électronique: {user.email}</p>
+            <h2 className="session-h2">Mes moyens de contact</h2>
+            <div className="session-separator"></div>
+            <p class="session-p">Adresse électronique: {user.email}</p>
 
-
-          <div className="session-button-position">
-            <button className="auth-button">Modifier</button>
+            <div className="session-button-position">
+              <button className="auth-button">Modifier</button>
+            </div>
           </div>
-
-          {/*<h1 className="auth-page-title">Bienvenue, {user.firstname}</h1>
-          <p className="auth-field-name">Vous etes connectes ✓</p>
-          <div>
-            <button className="auth-button" type="button" onClick={ () => handleLogout(navigate, setIsAuthenticated) }>
-              Se deconnecter
-            </button>
-          </div>*/}
+          <details className="right-block" open>
+              <summary className="session-h2">La description de l'utilisateur</summary>
+              <br />
+              <p>Information1</p>
+              <p>Information2</p>
+              <p>Information3</p>
+              <p>Information4</p>
+          </details>
           <div className="chat-box-container">
             <div>
               <ChatBotEmoji />
@@ -126,7 +139,6 @@ export default function UserSession({ setIsAuthenticated }) {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }
